@@ -2,6 +2,7 @@ import $ from 'jquery'
 import './auth/register';
 import "./auth/login";
 import "./home/featurse"
+import "./courses/index"
 
 
      $(document).ready(function () {
@@ -40,12 +41,7 @@ import "./home/featurse"
        });
    });
 
-     $(document).ready(function () {
-         $(".course-header").click(function () {
-             $(this).next(".course-content").toggleClass("hidden");
-             $(this).find(".chevron-down").toggleClass("rotate-chevron");
-         });
-     });
+
 
      $(document).ready(function() {
          // Hover effect for project cards
@@ -72,9 +68,3 @@ import "./home/featurse"
      });
 
 
-$(document).ready(function () {
-    $(".pagination-dot").click(function () {
-        $(".pagination-dot").removeClass("active");
-        $(this).addClass("active");
-    });
-});

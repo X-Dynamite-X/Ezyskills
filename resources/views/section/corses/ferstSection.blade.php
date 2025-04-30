@@ -7,10 +7,10 @@
              </div>
              <div class="text-center">
                  <h1 class="text-4xl md:text-5xl font-bold mb-4">
-                     <span class="gradient-text text-[#FF8B36]">Angular JS:</span><br>
+                     <span class="gradient-text text-[#FF8B36]">{{ $course->title }}:</span><br>
                      Basic to Advance Level Coding
                  </h1>
-              
+
              </div>
          </div>
 </section>

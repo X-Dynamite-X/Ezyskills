@@ -7,11 +7,7 @@
          <div>
 
              <p class="text-gray-700">
-
-                 Angular JS is a JavaScript-based open-source
-                 front-end web framework for developing single-page
-                 applications. It was maintained mainly by Google and
-                 a community of individuals and corporations.
+                {{ $course->courseInfo->about }}
              </p>
          </div>
      </div>
@@ -23,21 +19,8 @@
          <div class="h-[2px] bg-[#FF914C] w-full"></div>
      </div>
      <div>
-         @php
-             $angularTopics = [
-                 'Utilizing AngularJS formats adequately',
-                 'Questioning and adjusting information in various databases and getting to be plainly gifted with the API',
-                 'Quickly making perplexing structures',
-                 'Understanding two-way (proportional) information authoritative',
-                 'Presenting route usefulness in web applications',
-                 'Overseeing conditions with Injection frameworks',
-                 'Securing web applications from dangers and pernicious clients',
-                 'Building different AngularJS orders',
-                 'Organizing the web application utilizing the vigorous index structure',
-                 'Organizing, composing, and ultimately sending the application',
-             ];
-         @endphp
-         @foreach ($angularTopics as $topic)
+
+         @foreach ($course->courseInfo->objectives as $topic)
              <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
                  <div class="bg-green-100 p-2 rounded-full mt-1">
                      <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -56,7 +39,7 @@
  </section>
 
 
- {{-- 
+ {{--
 
 
 --}}

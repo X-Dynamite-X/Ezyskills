@@ -12,6 +12,8 @@ class CourseController extends Controller
 {
 
 
+ 
+
     public function index(Request $request)
     {
         $query = Course::query();
@@ -20,7 +22,7 @@ class CourseController extends Controller
         if ($request->has('search')) {
             $search = $request->get('search');
             $query->where('title', 'like', "%{$search}%")
-                  ->orWhere('description', 'like', "%{$search}%");
+                ->orWhere('description', 'like', "%{$search}%");
         }
 
         // Filter by status
@@ -37,24 +39,24 @@ class CourseController extends Controller
         }
 
         $courses = $query->with('trainer')
-                        ->orderBy('created_at', 'desc')
-                        ->paginate(8);
+            ->orderBy('created_at', 'desc')
+            ->paginate(8);
 
         return view('courses', compact('courses'));
     }
 
     public function show(Course $course)
     {
-        $course->load('trainer');
+        $course->load('trainer', 'modules','courseInfo');
         $isEnrolled = false;
 
-        if (Auth::check()) {
+        // if (Auth::check()) {
             $isEnrolled = Enrollment::where('user_id', Auth::id())
-                                  ->where('course_id', $course->id)
-                                  ->exists();
-        }
-
-        return view('courses.show', compact('course', 'isEnrolled'));
+            ->where('course_id', $course->id)
+            ->exists();
+        // }
+        // dd($course->courseInfo);
+        return view('courses.show', compact('course', 'isEnrolled',));
     }
 
     public function create()
@@ -82,7 +84,7 @@ class CourseController extends Controller
         $course = Course::create($validated);
 
         return redirect()->route('courses.show', $course)
-                        ->with('success', 'Course created successfully.');
+            ->with('success', 'Course created successfully.');
     }
 
     public function edit(Course $course)
@@ -115,7 +117,7 @@ class CourseController extends Controller
         $course->update($validated);
 
         return redirect()->route('courses.show', $course)
-                        ->with('success', 'Course updated successfully.');
+            ->with('success', 'Course updated successfully.');
     }
 
     public function destroy(Course $course)
@@ -130,14 +132,15 @@ class CourseController extends Controller
         $course->delete();
 
         return redirect()->route('courses.index')
-                        ->with('success', 'Course deleted successfully.');
+            ->with('success', 'Course deleted successfully.');
     }
 
     public function enroll(Course $course)
     {
         if (Enrollment::where('user_id', Auth::id())
-                     ->where('course_id', $course->id)
-                     ->exists()) {
+            ->where('course_id', $course->id)
+            ->exists()
+        ) {
             return back()->with('error', 'You are already enrolled in this course.');
         }
 

@@ -45,6 +45,7 @@ class AuthController extends Controller
             return redirect("/");
         }
 
+
         throw ValidationException::withMessages([
             'email' => ['The provided credentials do not match our records.'],
         ]);

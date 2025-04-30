@@ -6,14 +6,21 @@
         <div class="bg-white rounded-4xl shadow-lg p-8 w-full md:w-1/3 ">
             <h2 class="text-2xl font-bold mb-6"><span class="text-gray-800">Create</span> <span
                     class="text-orange-500">Account</span></h2>
-            <form action="#">
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
                 <div class="mb-4">
-                    <input type="email" placeholder="Email Address"
+                    <input type="email" placeholder="Email Address" name="email" id="email" required
                         class="w-full border-b-1 p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    @error('email')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="mb-4">
-                    <input type="password" placeholder="Password"
+                    <input type="password" placeholder="Password" name="password" id="password" required
                         class="w-full   border-b-1 p-3 rounded focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    @error('password')
+                        <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex items-center mb-4">
@@ -21,7 +28,8 @@
                     <label class="text-gray-600 text-sm" for='rememberMe'>Remember me</label>
                 </div>
                 <div class="flex justify-center items-center   ">
-                    <button class="bg-[#003F7D] text-white py-2 rounded hover:bg-blue-700 transition w-[175px] h-[40px]">
+                    <button type="submit"
+                        class="bg-[#003F7D] text-white py-2 rounded hover:bg-blue-700 transition w-[175px] h-[40px]">
                         Login
                     </button>
                 </div>
@@ -50,7 +58,8 @@
                 </div>
 
                 <p class="text-[12.43px] text-gray-500 mt-4 text-center">
-                 By continuing, you agree to the <strong class="text-[#F98149]"> Terms of Service  </strong> and  <strong class="text-[#F98149]"> Privacy Policy  </strong>
+                    By continuing, you agree to the <strong class="text-[#F98149]"> Terms of Service </strong> and <strong
+                        class="text-[#F98149]"> Privacy Policy </strong>
 
                 </p>
             </form>

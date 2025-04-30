@@ -17,12 +17,13 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create([
 
             'email' => 'dynamite@gmail.com',
-            "password" => bcrypt("231")
+            "password" => bcrypt("123")
         ]);
         $user->assignRole(["admin", "trainer"]);
         User::factory(99)->create();
         $this->call([
             CoursesSeeder::class,
+            CourseInfoSeeder::class,
         ]);
     }
 }

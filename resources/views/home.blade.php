@@ -5,6 +5,7 @@
 
 
 @section('main')
+    {{-- @dd($courses) --}}
     <section class="flex flex-col  md:flex-row items-center justify-between px-8 py-16 ">
         <div class="max-w-lg">
             <h2 class="text-4xl font-bold mb-4 text-blue-900">Skill Your Way Up To Success With Us</h2>
@@ -43,11 +44,12 @@
             @include('layouts.svg.home.scrol')
         </div>
     </section>
+
     <div id="moreSections" class="bg-white">
         @include('section.home.features')
         @include("section.home.skillDevelopment")
         @include('section.home.howItWorks')
-        @include('section.home.popularCoursesSection')
+        @include('section.home.popularCoursesSection', ['courses' => $courses])
         @include("section.home.achievementsSection")
         @include('section.home.mentorsSection')
         @include("section.home.certificationsSection")

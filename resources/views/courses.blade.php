@@ -5,14 +5,41 @@
 @section('main')
     <div class="container mx-auto px-4 py-8">
         <!-- Header Section -->
+
         <div class="mb-8">
             <h1 class="text-2xl font-bold">Courses <span class="text-[#FF914C]">list</span></h1>
+            <!-- Search and Filters Section -->
+            <div class="flex items-center gap-4 mt-4">
+                <!-- Search Bar -->
+                <div class="relative w-64">
+                    <input type="text"
+                           name="search"
+                           placeholder="Search courses"
+                           class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:border-[#FF914C] focus:ring focus:ring-[#FF914C] focus:ring-opacity-50">
+                    <div class="absolute left-3 top-2.5 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
 
-            <!-- Filter Tabs -->
-            <div class="flex gap-6 mt-4 border-b border-gray-200">
-                <button class="px-4 py-2 text-[#FF914C] border-b-2 border-[#FF914C]">Featured</button>
-                <button class="px-4 py-2 text-gray-500">Coming Soon</button>
-                <button class="px-4 py-2 text-gray-500">Archived</button>
+                <!-- Filter Tabs -->
+                <div class="flex  border-gray-200 justify-self-center">
+                    <button class="px-4 py-2 text-[#FF914C] border-b-2 border-[#FF914C]">Featured</button>
+                    <button class="px-4 py-2 text-gray-500 hover:text-[#FF914C] hover:border-b-2 hover:border-[#FF914C] transition-all">Coming Soon</button>
+                    <button class="px-4 py-2 text-gray-500 hover:text-[#FF914C] hover:border-b-2 hover:border-[#FF914C] transition-all">Archived</button>
+                </div>
+
+
+                <div class="flex gap-3 ml-auto">
+
+
+                    <select class="px-4 py-2 rounded-lg border border-gray-300 focus:border-[#FF914C] focus:ring focus:ring-[#FF914C] focus:ring-opacity-50">
+
+                        <option value="populer" selected>Popular</option>
+                        <option value="all">all</option>
+                     </select>
+                </div>
             </div>
         </div>
 
@@ -21,14 +48,17 @@
 
 
             @foreach ($courses as $course)
-                <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full">
-                    <div class="p-8 flex justify-center flex-shrink-0">
+                <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full"
+                    onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
+                    <div class="p-8 flex justify-center flex-shrink-0"
+                        onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
                         <img src="{{ asset('img/home/popularCourses/vue.png') }}" alt="Vue JS" class="h-16">
                     </div>
-                    <div class="bg-white mt-auto p-6 rounded-t-3xl flex-grow">
-                        <h3 class="text-2xl font-semibold text-center mb-4">{{ $course['name'] }}</h3>
+                    <div class="bg-white mt-auto p-6 rounded-t-3xl flex-grow"
+                        onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
+                        <h3 class="text-2xl font-semibold text-center mb-4 ">{{ $course->title }}</h3>
                         <p class="text-gray-600 text-sm text-center mb-6">
-                            {{ $course['description'] }}
+                            {{ $course->description }}
                         </p>
                         <div class="flex gap-2 justify-center mb-4">
                             <button
@@ -62,3 +92,4 @@
         {{ $courses->links() }}
     </div>
 @endsection
+

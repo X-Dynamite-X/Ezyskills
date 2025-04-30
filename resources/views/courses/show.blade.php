@@ -1,6 +1,6 @@
  @extends('layouts.app')
  @section('title')
-     Angular JS Course
+     {{ $course->title }} Course
  @endsection
 
  @section('css')
@@ -8,7 +8,7 @@
 
  @section('main')
      <!-- Hero Section with improved design -->
-     @include('section.corses.ferstSection')
+     @include('section.corses.ferstSection',compact('course'))
 
      <div class="container mx-auto px-4">
 
@@ -19,16 +19,15 @@
              <!-- Left Content -->
 
              <div class="lg:col-span-2 w-full">
-                 @include('section.corses.rightSidebar')
+                 @include('section.corses.rightSidebar' ,compact('course'))
              </div>
-             @include('section.corses.courseContent')
+             @include('section.corses.courseContent',compact('course'))
 
              <!-- Right Sidebar -->
 
          </div>
 
 
-         @include('section.corses.projects')
+         @include('section.corses.projects',compact('course'))
      </div>
-     
  @endsection

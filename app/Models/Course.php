@@ -61,4 +61,14 @@ class Course extends Model
     {
         return $this->reviews()->avg('rating') ?? 0;
     }
+    public function isEnrolledByUser($userId)
+    {
+        return $this->enrolledUsers()->where('user_id', $userId)->exists();
+    }
+    public function courseInfo()
+    {
+        return $this->hasOne(CourseInfo::class);
+    }
+     
+
 }
