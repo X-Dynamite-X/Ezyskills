@@ -6,7 +6,7 @@
         <nav class="flex space-x-6 text-gray-600">
             <a href="{{ route("home") }}" class="hover:text-[#FF8B36] {{ request()->routeIs('home') ? 'text-[#FF8B36]' : '' }}">Home</a>
             <a href="#" class="hover:text-[#FF8B36] {{ request()->routeIs('courseSelector') ? 'text-[#FF8B36]' : '' }}">Course Selector</a>
-            <a href="#" class="hover:text-[#FF8B36] {{ request()->routeIs('courses') ? 'text-[#FF8B36]' : '' }}">Courses</a>
+            <a href="{{ route('courses') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('courses') ? 'text-[#FF8B36]' : '' }}">Courses</a>
             <a href="{{ route("contactUs") }}" class="hover:text-[#FF8B36] {{ request()->routeIs('contact') ? 'text-[#FF8B36]' : '' }}">Contact Us</a>
             <a href="{{ route('faq') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('faq') ? 'text-[#FF8B36]' : '' }}">FAQ</a>
             <a href="{{ route('about') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('about') ? 'text-[#FF8B36]' : '' }}">About </a>

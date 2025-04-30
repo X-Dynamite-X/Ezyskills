@@ -26,17 +26,17 @@
 
             <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-center">
                 <div>
-                    <span class="flex items-center gap-1">
+                    <span class="flex items-center gap-2">
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())
-                            <span class="flex h-9 w-9 cursor-not-allowed items-center justify-center rounded-full border border-gray-200 bg-white opacity-50 dark:border-gray-700 dark:bg-gray-800">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <span class="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-md border border-gray-300 bg-[#F98149] opacity-50">
+                                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                 </svg>
                             </span>
                         @else
-                            <a href="{{ $paginator->previousPageUrl() }}" class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white transition-all duration-300 hover:scale-110 hover:border-blue-600 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500 dark:hover:bg-gray-700">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <a href="{{ $paginator->previousPageUrl() }}" class="flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-[#F98149] transition-all duration-300 hover:opacity-80">
+                                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                                 </svg>
                             </a>
@@ -46,7 +46,7 @@
                         @foreach ($elements as $element)
                             {{-- "Three Dots" Separator --}}
                             @if (is_string($element))
-                                <span class="flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium">
+                                <span class="flex h-10 w-10 items-center justify-center rounded-md text-sm font-medium text-gray-700">
                                     {{ $element }}
                                 </span>
                             @endif
@@ -55,11 +55,11 @@
                             @if (is_array($element))
                                 @foreach ($element as $page => $url)
                                     @if ($page == $paginator->currentPage())
-                                        <span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-sm font-medium text-white transition-all duration-300 hover:bg-blue-700">
+                                        <span class="flex h-10 w-10 items-center justify-center rounded-md bg-[#F98149] text-sm font-medium text-white transition-all duration-300">
                                             {{ $page }}
                                         </span>
                                     @else
-                                        <a href="{{ $url }}" class="flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-110 hover:bg-gray-100 hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400">
+                                        <a href="{{ $url }}" class="flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-white text-sm font-medium text-gray-700 transition-all duration-300 hover:bg-gray-50">
                                             {{ $page }}
                                         </a>
                                     @endif
@@ -69,14 +69,14 @@
 
                         {{-- Next Page Link --}}
                         @if ($paginator->hasMorePages())
-                            <a href="{{ $paginator->nextPageUrl() }}" class="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white transition-all duration-300 hover:scale-110 hover:border-blue-600 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:border-blue-500 dark:hover:bg-gray-700">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <a href="{{ $paginator->nextPageUrl() }}" class="flex h-10 w-10 items-center justify-center rounded-md border border-gray-300 bg-[#F98149] transition-all duration-300 hover:opacity-80">
+                                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </a>
                         @else
-                            <span class="flex h-9 w-9 cursor-not-allowed items-center justify-center rounded-full border border-gray-200 bg-white opacity-50 dark:border-gray-700 dark:bg-gray-800">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <span class="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-md border border-gray-300 bg-[#F98149] opacity-50">
+                                <svg class="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                                 </svg>
                             </span>
@@ -87,3 +87,4 @@
         </div>
     </nav>
 @endif
+

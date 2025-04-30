@@ -15,3 +15,8 @@ Route::get('/faq', function () {
 Route::get('/pricing', function () {
     return view('pricing');
 })->name('pricing');
+
+
+
+
+ 

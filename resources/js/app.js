@@ -39,3 +39,42 @@ import "./home/featurse"
            parent.find(".minus-icon").toggleClass("hidden");
        });
    });
+
+     $(document).ready(function () {
+         $(".course-header").click(function () {
+             $(this).next(".course-content").toggleClass("hidden");
+             $(this).find(".chevron-down").toggleClass("rotate-chevron");
+         });
+     });
+
+     $(document).ready(function() {
+         // Hover effect for project cards
+         $('.project-card').hover(
+             function() {
+                 $(this).find('.project-details').slideDown(200);
+                 $(this).find('.arrow-icon').addClass('rotate-90');
+                 $(this).addClass('bg-gray-50');
+             },
+             function() {
+                 $(this).find('.project-details').slideUp(200);
+                 $(this).find('.arrow-icon').removeClass('rotate-90');
+                 $(this).removeClass('bg-gray-50');
+             }
+         );
+
+         // Click effect for project cards
+         $('.project-card').click(function() {
+             $(this).addClass('scale-95').delay(100).queue(function(next){
+                 $(this).removeClass('scale-95');
+                 next();
+             });
+         });
+     });
+
+
+$(document).ready(function () {
+    $(".pagination-dot").click(function () {
+        $(".pagination-dot").removeClass("active");
+        $(this).addClass("active");
+    });
+});

@@ -73,6 +73,7 @@ class AuthController extends Controller
         ]);
         $user->assignRole('student');
 
+
         Auth::login($user);
         if($request->ajax()){
 

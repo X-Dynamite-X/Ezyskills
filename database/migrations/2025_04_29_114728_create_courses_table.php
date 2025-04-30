@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->foreignId('trainer_id')->constrained('users')->onDelete('cascade');
-            // Removed category_id field
             $table->decimal('price', 10, 2)->default(0);
             $table->enum('status', ['Opened', 'Coming Soon', 'Archived'])->default('Coming Soon');
             $table->timestamps();
