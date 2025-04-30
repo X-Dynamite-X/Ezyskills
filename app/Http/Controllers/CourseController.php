@@ -12,32 +12,33 @@ class CourseController extends Controller
 {
 
 
- 
+
 
     public function index(Request $request)
     {
         $query = Course::query();
 
         // Search functionality
-        if ($request->has('search')) {
-            $search = $request->get('search');
-            $query->where('title', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
-        }
+        if ($request->ajax()) {
+            if ($request->has('search')) {
+                $search = $request->get('search');
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            }
 
-        // Filter by status
-        if ($request->has('status')) {
-            $query->where('status', $request->status);
-        }
+            // Filter by status
+            if ($request->has('status')) {
+                $query->where('status', $request->status);
+            }
+            $courses = $query->with('trainer')
+                ->orderBy('created_at', 'desc')
+                ->paginate(8);
 
-        // Filter by price range
-        if ($request->has('price_min')) {
-            $query->where('price', '>=', $request->price_min);
+            return response()->json([
+                'courses' => view('courses.getCourses', compact('courses'))->render(),
+                'pagination' => $courses->links()->render(),
+            ]);
         }
-        if ($request->has('price_max')) {
-            $query->where('price', '<=', $request->price_max);
-        }
-
         $courses = $query->with('trainer')
             ->orderBy('created_at', 'desc')
             ->paginate(8);
@@ -47,15 +48,14 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        $course->load('trainer', 'modules','courseInfo');
+        $course->load('trainer', 'modules', 'courseInfo');
         $isEnrolled = false;
 
-        // if (Auth::check()) {
-            $isEnrolled = Enrollment::where('user_id', Auth::id())
+        if (Auth::check()) {
+        $isEnrolled = Enrollment::where('user_id', Auth::id())
             ->where('course_id', $course->id)
             ->exists();
-        // }
-        // dd($course->courseInfo);
+        }
         return view('courses.show', compact('course', 'isEnrolled',));
     }
 

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->text('description');
             $table->string('image')->nullable();
             $table->foreignId('trainer_id')->constrained('users')->onDelete('cascade');
-            $table->decimal('price', 10, 2)->default(0);
+            $table->foreignId('pricing_plan_id')->constrained()->onDelete('cascade');
+
             $table->enum('status', ['Opened', 'Coming Soon', 'Archived'])->default('Coming Soon');
             $table->timestamps();
         });

@@ -1,4 +1,5 @@
 import $ from "jquery"
+import "./apiIndexPage";
 
 $(document).ready(function () {
     $(".course-header").click(function () {
@@ -8,7 +9,7 @@ $(document).ready(function () {
     $(".course-items").click(function (e) {
         e.stopPropagation();
     });
-    
+
 
     $(".pagination-dot").click(function () {
         $(".pagination-dot").removeClass("active");

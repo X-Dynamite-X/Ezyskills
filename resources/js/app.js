@@ -1,8 +1,25 @@
 import $ from 'jquery'
-import './auth/register';
-import "./auth/login";
-import "./home/featurse"
-import "./courses/index"
+
+// تحديد المسار الحالي
+const currentPath = window.location.pathname;
+
+// استيراد الملفات بناءً على المسار
+if (currentPath === '/register' || currentPath === '/login') {
+    import('./auth/register.js');
+    import('./auth/login.js');
+}
+
+if (currentPath === '/courses') {
+    import('./courses/index.js');
+}
+
+if (currentPath.startsWith('/admin')) {
+    import('./admin/users.js');
+}
+
+if (currentPath === '/') {
+    import('./home/featurse.js');
+}
 
 
      $(document).ready(function () {
@@ -66,5 +83,6 @@ import "./courses/index"
              });
          });
      });
+
 
 
