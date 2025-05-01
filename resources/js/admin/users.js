@@ -41,6 +41,7 @@ $(document).ready(function () {
               headers: {
                   "X-Requested-With": "XMLHttpRequest",
               },
+
               success: function (response) {
                    console.log(response);
                   $("#users-table").html(response.users);
@@ -50,6 +51,42 @@ $(document).ready(function () {
       }, 300);
   });
 
+  // إضافة معالج النقر على أزرار التصفية
+  $(document).on("click", "[data-sershrole]", function() {
+      // إزالة الفئة النشطة من جميع الأزرار
+      $("[data-sershrole]").removeClass("bg-[#003F7D] text-white").addClass("bg-gray-100 text-gray-700");
+
+      // إضافة الفئة النشطة للزر المحدد
+      $(this).removeClass("bg-gray-100 text-gray-700").addClass("bg-[#003F7D] text-white");
+
+      const role = $(this).data("sershrole");
+      const searchTerm = $("#searchInput").val();
+
+      // بناء URL مع المعايير
+      const url = `/admin/users?${role ? 'role=' + role : ''}${searchTerm ? '&search=' + encodeURIComponent(searchTerm) : ''}`;
+
+      $.ajax({
+          url: url,
+          method: "GET",
+          headers: {
+              "X-Requested-With": "XMLHttpRequest"
+          },
+          success: function (response) {
+              
+              $("#users-table").html(response.users);
+              $(".pagination-wrapper").html(response.pagination);
+
+              // تحديث URL الصفحة بدون إعادة تحميل
+              window.history.pushState({}, '', url);
+          },
+          error: function(xhr) {
+              console.error("Error filtering users:", xhr);
+              showNotification("Error filtering users", "error");
+          }
+      });
+  });
+
 });
 
 // Notification function
+

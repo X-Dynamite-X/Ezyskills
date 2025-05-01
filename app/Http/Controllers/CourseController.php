@@ -48,7 +48,7 @@ class CourseController extends Controller
 
     public function show(Course $course)
     {
-        $course->load('trainer', 'modules', 'courseInfo');
+        $course->load('trainer', 'courseInfo');
         $isEnrolled = false;
 
         if (Auth::check()) {

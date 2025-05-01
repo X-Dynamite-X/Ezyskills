@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('pricing_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('name');
-            $table->decimal('price', 10, 2);
-            $table->text('description')->nullable();
-            $table->integer('duration')->comment('Duration in days');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->integer("price");
+            $table->integer('credit');
+            $table->text('description');
+            $table->timestamps();
+
+
         });
     }
 

@@ -12,18 +12,21 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
+            $role = $request->input('role');
         $users = User::query()
             ->when($search, function ($query, $search) {
-                $query->where('name', 'LIKE', "%{$search}%")
-                    ->orWhere('email', 'LIKE', "%{$search}%");
-            })->orderBy('id')
+                $query->Where('email', 'LIKE', "%{$search}%");
+            })->when($role, function ($query, $role) {
+            $query->whereHas('roles', function ($q) use ($role) {
+                $q->where('name', $role);
+            });
+        })->orderBy('id')
             ->latest()
             ->paginate(10) ;
 
         if ($request->ajax()) {
             $usersView = view('admin.users.table', compact('users'))->render();
-            $pagination = $users->appends(['search' => $search])->links()->render();
+            $pagination = $users->appends(['search' => $search, 'role' => $role])->links()->render();
             return response()->json(['users' => $usersView, 'pagination' => $pagination]);
         }
 
@@ -50,7 +53,7 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-      
+
             'email' => 'required|email|unique:users,email,' . $user->id,
             'status' => 'required|string',
         ]);

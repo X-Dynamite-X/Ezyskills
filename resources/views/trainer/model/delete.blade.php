@@ -18,9 +18,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                 </svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500  ">
-                    Are you sure you want to delete this user?
+                    Are you sure you want to delete this Courses? 
                 </h3>
-                <input type="hidden" id="userIdToDelete">
+                <input type="hidden" id="CoursesIdToDelete">
                 <button type="button" id="confirmDelete" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300   font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, delete it
                 </button>

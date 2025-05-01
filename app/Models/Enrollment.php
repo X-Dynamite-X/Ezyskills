@@ -30,8 +30,6 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    // public function pricingPlan()
-    // {
-    //     return $this->belongsTo(PricingPlan::class);
-    // }
+    
+  
 }

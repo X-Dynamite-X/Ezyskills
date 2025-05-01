@@ -5,31 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
- 
+
 class PricingPlan extends Model
 {
     use HasFactory;
     public $timestamps = false;
 
     protected $fillable = [
-        'course_id',
         'name',
+        "user_id",
         'price',
+        "credit",
         'description',
-        'duration',
-    ];
-
-    protected $casts = [
-        'price' => 'decimal:2',
-    ];
-
-    public function course()
+     ];
+     public function user()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(User::class);
     }
-
-    public function enrollments()
-    {
-        return $this->hasMany(Enrollment::class);
-    }
+    
 }

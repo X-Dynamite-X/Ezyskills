@@ -1,29 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\PricingPlan\StorePricingPlanRequest;
 use App\Http\Requests\PricingPlan\UpdatePricingPlanRequest;
 
 use App\Models\Course;
 use App\Models\PricingPlan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PricingPlanController extends Controller
 {
+    protected $auth;
 
-
-    public function index(Request $request, Course $course)
+    public function __construct()
     {
-        $pricingPlans = $course->pricingPlans()->get();
+        $this->auth = Auth::user();
+    }
 
-        return response()->json(["pricingPlan"=> $pricingPlans]);
+    public function index(Request $request)
+    {
+
+        $pricingPlans = PricingPlan::all();
+        return view('pricing', compact('pricingPlans'));
     }
 
     public function store(StorePricingPlanRequest $request, Course $course)
     {
-       
+
 
         $pricingPlanData = $request->validated();
         $pricingPlanData['course_id'] = $course->id;
@@ -33,55 +38,33 @@ class PricingPlanController extends Controller
         return response()->json(["pricingPlan" => $pricingPlan]);
     }
 
-    public function show(Course $course, PricingPlan $pricingPlan)
-    {
-        // Ensure pricing plan belongs to course
-        if ($pricingPlan->course_id !== $course->id) {
-            return response()->json(['message' => 'Pricing plan not found for this course'], 404);
-        }
 
-        return response()->json(["pricingPlan" => $pricingPlans]);
-    }
-
-    public function update(UpdatePricingPlanRequest $request, Course $course, PricingPlan $pricingPlan)
+    public function update(UpdatePricingPlanRequest $request,  PricingPlan $pricingPlan)
     {
-        // Ensure pricing plan belongs to course
-        if ($pricingPlan->course_id !== $course->id) {
-            return response()->json(['message' => 'Pricing plan not found for this course'], 404);
-        }
+
 
         // Check if user is admin or the course trainer
-        if (!auth()->user()->hasRole('admin') && auth()->id() !== $course->trainer_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
 
         $pricingPlan->update($request->validated());
 
-        return response()->json(["pricingPlan" => $pricingPlans]);
+        return response()->json(["pricingPlan" => $pricingPlan]);
     }
 
-    public function destroy(Course $course, PricingPlan $pricingPlan)
+    public function destroy(PricingPlan $pricingPlan)
     {
-        // Ensure pricing plan belongs to course
-        if ($pricingPlan->course_id !== $course->id) {
-            return response()->json(['message' => 'Pricing plan not found for this course'], 404);
-        }
 
-        // Check if user is admin or the course trainer
-        if (!auth()->user()->hasRole('admin') && auth()->id() !== $course->trainer_id) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        // Check if pricing plan is used in any enrollments
-        $hasEnrollments = $pricingPlan->enrollments()->exists();
-        if ($hasEnrollments) {
-            return response()->json([
-                'message' => 'Cannot delete pricing plan that has active enrollments'
-            ], 422);
-        }
-
-        $pricingPlan->delete();
-
+        PricingPlan::findOrFail($pricingPlan->id)->delete();
         return response()->json(['message' => 'Pricing plan deleted successfully']);
+    }
+    public function bayCredit(Request $request, PricingPlan $pricingPlan)
+    {
+        $pricingPlan = PricingPlan::findOrFail($pricingPlan->id);
+
+        if (Auth::check()) {
+            $this->auth->credit += $pricingPlan->credit;
+            $this->auth->save();
+            return response()->json(['redirect' => route('courses')]);
+        }
+        return response()->json(["error" => "You are not logged in"], 401);
     }
 }

@@ -9,8 +9,8 @@
         <!-- Hero Section -->
         <div class="bg-[#003F7D] text-white py-16 px-4">
             <div class="container mx-auto">
-                <h1 class="text-4xl font-bold mb-4">Users Management</h1>
-                <p class="text-lg opacity-90">Manage and monitor all users in your system</p>
+                <h1 class="text-4xl font-bold mb-4">Corses Management</h1>
+                <p class="text-lg opacity-90">Manage and monitor all Corses in your system</p>
             </div>
         </div>
 
@@ -23,7 +23,7 @@
                     <div class="relative w-full md:w-96">
                         <input type="text" id="searchInput"
                             class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#FF914C] focus:border-transparent"
-                            placeholder="Search users...">
+                            placeholder="Search corses...">
                         <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -37,7 +37,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        Add New User
+                        Add New Corses
                     </button>
                 </div>
 
@@ -46,22 +46,22 @@
                     <button
                         data-sershrole=""
                         class="px-6 py-2 rounded-full bg-[#003F7D] text-white hover:bg-[#FF914C] transition duration-300">
-                        All Users
+                        All Corses
                     </button>
                     <button
-                        data-sershrole="admin"
+                        data-sershrole="opened"
                         class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
-                        Administrators
+                        Opened
                     </button>
                     <button
-                        data-sershrole="trainer"
+                        data-sershrole="coming-soon"
                         class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
-                        Regular Trainer
+                       Coming Soon
                     </button>
                     <button
-                        data-sershrole="student"
+                        data-sershrole="archived"
                         class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
-                        Regular Student
+                        Archived
                     </button>
                 </div>
 
@@ -71,21 +71,22 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">ID</th>
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">Tytle</th>
-                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">Status</th>
-
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">title</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">description</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">pricing</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">status</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200" id="users-table">
-                            @include('admin.users.table', ['users' => $users])
+                        <tbody class="divide-y divide-gray-200" id="courses-table">
+                            @include('trainer.table', ['courses' => $courses])
                         </tbody>
                     </table>
                 </div>
 
                 <!-- Pagination -->
                 <div class="mt-6">
-                    {{ $users->links() }}
+                    {{ $courses->links() }}
                 </div>
             </div>
         </div>
@@ -93,8 +94,8 @@
 
     <!-- Modals -->
     <div class="modal-container">
-        @include('admin.users.model.edit')
-        @include('admin.users.model.delete')
+        @include('trainer.model.edit')
+        @include('trainer.model.delete')
     </div>
 @endsection
 

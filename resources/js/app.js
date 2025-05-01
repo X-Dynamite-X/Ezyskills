@@ -9,7 +9,7 @@ if (currentPath === '/register' || currentPath === '/login') {
     import('./auth/login.js');
 }
 
-if (currentPath === '/courses') {
+if (currentPath.startsWith( '/courses')) {
     import('./courses/index.js');
 }
 
@@ -19,6 +19,9 @@ if (currentPath.startsWith('/admin')) {
 
 if (currentPath === '/') {
     import('./home/featurse.js');
+}
+if (currentPath === '/pricing') {
+    import("./pricing/index.js");
 }
 
 

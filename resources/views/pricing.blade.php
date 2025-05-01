@@ -34,6 +34,6 @@
      </style>
  @endsection("css")
  @section('main')
-     @include('section.pricing.ferstSection')
-      <section class="mt-[20rem]"></section>
+     @include('section.pricing.ferstSection' ,['pricingPlans' => $pricingPlans])
+      <section class="mt-[30rem]"></section>
  @endsection

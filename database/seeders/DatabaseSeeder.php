@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         $user->assignRole(["admin", "trainer"]);
         User::factory(99)->create();
         $this->call([
+            PricingPlanSeeder::class,
             CoursesSeeder::class,
             CourseInfoSeeder::class,
         ]);

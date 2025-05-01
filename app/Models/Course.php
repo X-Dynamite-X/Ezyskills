@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-//
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -30,21 +29,8 @@ class Course extends Model
         return $this->belongsTo(User::class, 'trainer_id');
     }
 
-    public function modules()
-    {
-        return $this->hasMany(Module::class);
-    }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
-    public function pricingPlans()
-    {
-        return $this->hasMany(PricungPlan::class);
-    }
-
+  
     public function enrolledUsers()
     {
         return $this->belongsToMany(User::class, 'enrollments')
@@ -52,23 +38,12 @@ class Course extends Model
             ->withTimestamps();
     }
 
-    public function activeEnrollments()
-    {
-        return $this->enrolledUsers()->wherePivot('status', 'approved');
-    }
 
-    public function avgRating()
-    {
-        return $this->reviews()->avg('rating') ?? 0;
-    }
-    public function isEnrolledByUser($userId)
-    {
-        return $this->enrolledUsers()->where('user_id', $userId)->exists();
-    }
     public function courseInfo()
     {
         return $this->hasOne(CourseInfo::class);
     }
-     
 
+
+   
 }

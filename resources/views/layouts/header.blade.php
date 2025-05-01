@@ -4,16 +4,23 @@
             <img src="{{ asset('logo.png') }}" alt="EZY Skills" class="w-32 h-auto">
         </div>
         <nav class="flex space-x-6 text-gray-600">
-            <a href="{{ route("home") }}" class="hover:text-[#FF8B36] {{ request()->routeIs('home') ? 'text-[#FF8B36]' : '' }}">Home</a>
-            <a href="#" class="hover:text-[#FF8B36] {{ request()->routeIs('courseSelector') ? 'text-[#FF8B36]' : '' }}">Course Selector</a>
-            <a href="{{ route('courses') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('courses') ? 'text-[#FF8B36]' : '' }}">Courses</a>
-            <a href="{{ route("contactUs") }}" class="hover:text-[#FF8B36] {{ request()->routeIs('contact') ? 'text-[#FF8B36]' : '' }}">Contact Us</a>
-            <a href="{{ route('faq') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('faq') ? 'text-[#FF8B36]' : '' }}">FAQ</a>
-            <a href="{{ route('about') }}" class="hover:text-[#FF8B36] {{ request()->routeIs('about') ? 'text-[#FF8B36]' : '' }}">About </a>
+            <a href="{{ route('home') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('home') ? 'text-[#FF8B36]' : '' }}">Home</a>
+            <a href="{{ route('pricing') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('pricing') ? 'text-[#FF8B36]' : '' }}">pricing</a>
+            <a href="{{ route('courses') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('courses') ? 'text-[#FF8B36]' : '' }}">Courses</a>
+            <a href="{{ route('contactUs') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('contact') ? 'text-[#FF8B36]' : '' }}">Contact Us</a>
+            <a href="{{ route('faq') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('faq') ? 'text-[#FF8B36]' : '' }}">FAQ</a>
+            <a href="{{ route('about') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('about') ? 'text-[#FF8B36]' : '' }}">About </a>
         </nav>
         <div class="flex space-x-4">
             @guest
-                <button class="px-4 py-2 border border-orange-500 text-[#FF8B36] rounded hover:bg-orange-500 hover:text-white transition loginBtn">
+                <button
+                    class="px-4 py-2 border border-orange-500 text-[#FF8B36] rounded hover:bg-orange-500 hover:text-white transition loginBtn">
                     <a href="{{ route('login') }}">Log in</a>
                 </button>
                 <button class="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600 transition registerBtn">
@@ -21,12 +28,64 @@
                 </button>
             @else
                 <button>
-                    @include("layouts.svg.seting")
+                    @include('layouts.svg.seting')
                 </button>
-                <button>
-                    @include("layouts.svg.usersvg")
-                </button>
+                <div class="flex items-center">
+                    <div class="flex items-center ms-3">
+                        <div>
+                            <button type="button"
+                                class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                                aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                <span class="sr-only">Open user menu</span>
+                                <img class="w-8 h-8 rounded-full"
+                                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                            </button>
+                        </div>
+                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600"
+                            id="dropdown-user">
+                            <div class="px-4 py-3" role="none">
+                                <p class="text-sm text-gray-900 dark:text-white" role="none">
+                                    Neil Sims
+                                </p>
+                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                    neil.sims@flowbite.com
+                                </p>
+                            </div>
+                            <ul class="py-1" role="none">
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Dashboard</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Earnings</a>
+                                </li>
+                                <li>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        role="menuitem">Sign out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             @endguest
         </div>
     </div>
 </header>
+
+
+{{-- 
+
+
+
+
+
+--}}

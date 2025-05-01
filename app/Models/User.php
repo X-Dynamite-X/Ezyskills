@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        "credit",
         'password',
     ];
 
@@ -52,11 +53,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
+ 
     public function courses()
     {
         return $this->hasMany(Course::class, 'trainer_id');
@@ -75,5 +72,13 @@ class User extends Authenticatable
     public function isStudent()
     {
         return $this->hasRole('student');
+    }
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+    public function pricingPlans()
+    {
+        return $this->hasMany(PricingPlan::class);
     }
 }
