@@ -33,18 +33,17 @@ class UsersController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-   
+
 
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
 
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email',
             'status' => 'required|string',
         ]);
 
-        $user->update($validated);
-        $user->syncRoles($validated['status']);
+         $user->syncRoles($validated['status']);
 
         if ($request->ajax()) {
             return response()->json([

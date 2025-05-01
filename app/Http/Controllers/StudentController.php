@@ -13,7 +13,7 @@ class StudentController extends Controller
     {
         $this->auth = Auth::user();
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -36,9 +36,9 @@ class StudentController extends Controller
      */
     public function store(Request $request ,Course $course)
     {
-    
+
         if(Auth::chack() && $this->auth->credit >0){
-            
+
             $this->auth->credit -= 1;
             $this->auth->save();
             $course->enrolledUsers()->attach($this->auth->id);
