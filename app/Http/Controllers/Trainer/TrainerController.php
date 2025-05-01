@@ -18,13 +18,28 @@ class TrainerController extends Controller
         $this->auth = Auth::user();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         //
-        $courses = $this->auth->courses()->paginate(10);
-        // dd($courses);
-        return view("trainer.index", compact('courses'));
+        if ($request->ajax()) {
 
+            $search = $request->input('search');
+            $status = $request->input('status');
+            $courses = $this->auth->courses()->when($search, function ($query, $search) {
+                $query->where('title', 'LIKE', "%{$search}%");
+            })->when($status, function ($query, $status) {
+                $query->where('status', $status);
+            })->paginate(10);
+            $courses->appends(['search' => $search, 'status' => $status]);
+
+            return response()->json([
+                'courses' => view('trainer.table', compact('courses'))->render(),
+                'pagination' => $courses->links()->render(),
+            ]);
+        }
+        $courses = $this->auth->courses()->paginate(10);
+
+        return view("trainer.index", compact('courses'));
     }
 
     /**

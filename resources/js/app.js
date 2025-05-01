@@ -13,9 +13,17 @@ if (currentPath.startsWith( '/courses')) {
     import('./courses/index.js');
 }
 
-if (currentPath.startsWith('/admin')) {
-    import('./admin/users.js');
+if (currentPath.startsWith("/admin/users")) {
+    import("./admin/users/index.js");
 }
+
+if (currentPath.startsWith("/admin/pricing")) {
+    import("./admin/pricing/index.js");
+}
+if (currentPath.startsWith("/trainer")) {
+    import("./trainer/index.js");
+}
+
 
 if (currentPath === '/') {
     import('./home/featurse.js');

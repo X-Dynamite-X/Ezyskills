@@ -1,7 +1,7 @@
 import $ from "jquery";
 
-import "./users/edit";
-import "./users/delete";
+import "./edit";
+import "./delete";
 $.ajaxSetup({
     headers: {
         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
@@ -72,7 +72,7 @@ $(document).ready(function () {
               "X-Requested-With": "XMLHttpRequest"
           },
           success: function (response) {
-              
+
               $("#users-table").html(response.users);
               $(".pagination-wrapper").html(response.pagination);
 

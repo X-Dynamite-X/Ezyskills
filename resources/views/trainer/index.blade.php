@@ -42,25 +42,25 @@
                 </div>
 
                 <!-- Filters -->
-                <div class="flex flex-wrap gap-4 mb-6">
+                <div class="flex justify-center gap-6 border-gray-200 w-full">
                     <button
-                        data-sershrole=""
-                        class="px-6 py-2 rounded-full bg-[#003F7D] text-white hover:bg-[#FF914C] transition duration-300">
-                        All Corses
+                        class="status-filter active-filter px-6 py-2 text-[#FF914C] border-b-2 border-[#FF914C] font-medium"
+                        data-status="">
+                        All Courses
                     </button>
                     <button
-                        data-sershrole="opened"
-                        class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
+                        class="status-filter px-6 py-2 text-gray-500 hover:text-[#FF914C] hover:border-b-2 hover:border-[#FF914C] transition-all font-medium"
+                        data-status="opened">
                         Opened
                     </button>
                     <button
-                        data-sershrole="coming-soon"
-                        class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
+                        class="status-filter px-6 py-2 text-gray-500 hover:text-[#FF914C] hover:border-b-2 hover:border-[#FF914C] transition-all font-medium"
+                        data-status="coming Soon">
                        Coming Soon
                     </button>
                     <button
-                        data-sershrole="archived"
-                        class="px-6 py-2 rounded-full bg-gray-100 text-gray-700 hover:bg-[#FF914C] hover:text-white transition duration-300">
+                        class="status-filter px-6 py-2 text-gray-500 hover:text-[#FF914C] hover:border-b-2 hover:border-[#FF914C] transition-all font-medium"
+                        data-status="archived">
                         Archived
                     </button>
                 </div>
@@ -75,6 +75,7 @@
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">description</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">pricing</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">status</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">studant</th>
                                 <th class="px-6 py-4 text-left text-sm font-semibold text-[#003F7D]">Actions</th>
                             </tr>
                         </thead>
@@ -83,8 +84,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Pagination -->
                 <div class="mt-6">
                     {{ $courses->links() }}
                 </div>
@@ -95,6 +94,8 @@
     <!-- Modals -->
     <div class="modal-container">
         @include('trainer.model.edit')
+        @include('trainer.model.studant')
+        @include('trainer.model.courseInfo')
         @include('trainer.model.delete')
     </div>
 @endsection

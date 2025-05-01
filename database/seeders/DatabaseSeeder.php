@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PricingPlanSeeder::class,
             CoursesSeeder::class,
             CourseInfoSeeder::class,
+            EnrollmentsSeeder::class,
         ]);
     }
 }

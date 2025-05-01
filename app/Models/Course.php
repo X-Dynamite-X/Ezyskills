@@ -30,12 +30,12 @@ class Course extends Model
     }
 
 
-  
+
     public function enrolledUsers()
     {
-        return $this->belongsToMany(User::class, 'enrollments')
-            ->withPivot(['status', 'enrolled_at', 'pricing_plan_id'])
-            ->withTimestamps();
+        return $this->belongsToMany(User::class, 'enrollments')->select([ 'email'])
+ 
+        ;
     }
 
 
@@ -45,5 +45,5 @@ class Course extends Model
     }
 
 
-   
+
 }

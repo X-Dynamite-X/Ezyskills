@@ -26,7 +26,9 @@
                             class="flex text-sm bg-[#FF8B36] rounded-full focus:ring-4 focus:ring-[#FF8B36]/50"
                             aria-expanded="false" data-dropdown-toggle="dropdown-user">
                             <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->email) }}&background=random" alt="user photo">
+                            <img class="w-8 h-8 rounded-full"
+                                src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->email) }}&background=random"
+                                alt="user photo">
                         </button>
                     </div>
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg"
@@ -82,6 +84,21 @@
                         <span class="ms-3">Dashboard</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.pricingPlan.index') }}"
+                        class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
+                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
+                            aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M11.074 4 8.442.408A.95.95 0 0 0 7.014.254L2.926 4h8.148ZM9 13v-1a4 4 0 0 1 4-4h6V6a1 1 0 0 0-1-1H1a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h17a1 1 0 0 0 1-1v-2h-6a4 4 0 0 1-4-4Z" />
+                            <path
+                                d="M19 10h-6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1Zm-4.5 3.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z" />
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Pricing</span>
+                        <span
+                            class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-[#FF8B36] bg-[#FF8B36]/10 rounded-full">New</span>
+                    </a>
+                </li>
             @endrole
 
 
@@ -91,51 +108,37 @@
                         class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
                         <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z"/>
+                            <path
+                                d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">Trainer</span>
                     </a>
                 </li>
             @endrole
+
             <li>
                 <a href="{{ route('home') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
                     <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+                        <path
+                            d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Home</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('courses') }}"
-                    class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
-                    <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM13.5 5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm-7 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM10 16c-2.162 0-4.1-.929-5.5-2.394l1.838-1.83a6.363 6.363 0 0 0 7.324 0l1.838 1.83A7.435 7.435 0 0 1 10 16Z"/>
-                    </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">My Courses</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('pricing') }}"
-                    class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
-                    <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M11.074 4 8.442.408A.95.95 0 0 0 7.014.254L2.926 4h8.148ZM9 13v-1a4 4 0 0 1 4-4h6V6a1 1 0 0 0-1-1H1a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h17a1 1 0 0 0 1-1v-2h-6a4 4 0 0 1-4-4Z"/>
-                        <path d="M19 10h-6a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1Zm-4.5 3.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
-                    </svg>
-                    <span class="flex-1 ms-3 whitespace-nowrap">Pricing</span>
-                    <span class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-[#FF8B36] bg-[#FF8B36]/10 rounded-full">New</span>
-                </a>
-            </li>
+
+
             <li>
                 <a href="{{ route('contactUs') }}"
                     class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-[#003F7D]/10 hover:text-[#003F7D] group">
                     <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-[#003F7D]"
-                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 16">
+                        <path
+                            d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+                        <path
+                            d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
                     </svg>
                     <span class="flex-1 ms-3 whitespace-nowrap">Contact Us</span>
                 </a>
@@ -155,5 +158,3 @@
         </ul>
     </div>
 </aside>
-
-
