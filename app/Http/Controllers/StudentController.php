@@ -44,6 +44,7 @@ class StudentController extends Controller
             $course->enrolledUsers()->attach($this->auth->id);
             return redirect()->route('courses.show', $course->id);
         }
+        
 
         $course->enrolledUsers()->attach($this->auth->id);
         return redirect()->route('courses.show', $course->id);

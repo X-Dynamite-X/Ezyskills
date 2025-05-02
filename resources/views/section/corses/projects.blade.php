@@ -1,19 +1,10 @@
 <section class="py-8 px-6 w-full">
     <div class="flex items-center gap-4 w-full mb-8">
-        <h2 class="text-[#FF914C] text-2xl font-bold whitespace-nowrap">Angular JS Projects</h2>
+        <h2 class="text-[#FF914C] text-2xl font-bold whitespace-nowrap">Projects</h2>
         <div class="h-[2px] bg-[#FF914C] flex-grow"></div>
     </div>
 
-    @php
-        $angularProjects = [
-            'Angular Hello World Project',
-            'Angular Routing Project',
-            'Angular Forms Project',
-            'Angular Services Project',
-            'Angular HTTP Project',
-            'Angular Components Project',
-        ];
-    @endphp
+ 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
    @foreach ($course->courseInfo->projects as $projectTitle => $projectDetails)
     <div
