@@ -45,122 +45,116 @@ class TrainerController extends Controller
     }
     public function create()
     {
-        //
         return view('trainer.courses.create');
     }
  
     public function store(CreateCourseRequest $request)
     {
         try {
-            // التحقق من البيانات
+            // Validate data
             $validated = $request->validated();
 
-            // معالجة الصورة
+            // Process image
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('courses', 'public');
                 $validated['image'] = $path;
             } else {
-                return redirect()->back()
-                    ->withInput()
-                    ->withErrors(['image' => 'يرجى تحميل صورة للدورة']);
+                return response()->json([
+                    'success' => false,
+                    'errors' => ['image' => 'Please upload a course image']
+                ], 422);
             }
 
             $validated['trainer_id'] = auth()->id();
 
-            // طباعة البيانات للتصحيح
+            // Log data for debugging
             \Log::info('Validated data:', $validated);
 
-            // تحويل المصفوفات إلى JSON قبل حفظها
-            $content = [];
-            if (isset($validated['content_sections']) && is_array($validated['content_sections'])) {
-                foreach ($validated['content_sections'] as $index => $sectionName) {
-                    if (empty($sectionName)) continue;
-
-                    $lessons = [];
-                    if (isset($validated['lessons'][$index]) && is_array($validated['lessons'][$index])) {
-                        foreach ($validated['lessons'][$index] as $lessonTitle) {
-                            if (!empty($lessonTitle)) {
-                                $lessons[] = $lessonTitle;
-                            }
-                        }
-                    }
-
-                    $content[] = [
-                        'title' => $sectionName,
-                        'lessons' => $lessons
-                    ];
-                }
-            }
-
-            // إنشاء الدورة
+            // Create course
             $course = Course::create([
                 'title' => $validated['title'],
                 'description' => $validated['description'],
                 'image' => $validated['image'],
                 'trainer_id' => $validated['trainer_id'],
-                'pricing' => $validated['price'], // تأكد من أن هذا السطر موجود
+                'pricing' => $validated['pricing'],
                 'status' => $validated['status'],
             ]);
 
-            // تجهيز بيانات الأهداف
+            // Process objectives data
             $objectives = [];
-            if (isset($validated['objectives']) && is_array($validated['objectives'])) {
-                foreach ($validated['objectives'] as $objective) {
-                    if (!empty($objective)) {
-                        $objectives[] = $objective;
-                    }
+            if ($request->has('objectives_json')) {
+                $objectives = json_decode($request->input('objectives_json'), true) ?? [];
+            } else {
+                $objectives = array_filter($request->input('objectives', []), function($objective) {
+                    return !empty($objective);
+                });
+            }
+
+            // Process content data
+            $content = [];
+            if ($request->has('content_json')) {
+                $content = json_decode($request->input('content_json'), true) ?? [];
+            } else {
+                // Process data from traditional form
+                $contentSections = $request->input('content_sections', []);
+                $lessons = $request->input('lessons', []);
+                
+                foreach ($contentSections as $index => $sectionName) {
+                    if (empty($sectionName)) continue;
+                    
+                    $sectionLessons = $lessons[$index] ?? [];
+                    $content[$sectionName] = array_filter($sectionLessons, function($lesson) {
+                        return !empty($lesson);
+                    });
                 }
             }
-
-            if (empty($objectives)) {
-                $objectives[] = 'لم يتم تحديد أهداف للدورة';
-            }
-
-            // تجهيز بيانات المشاريع
+            
+            // Process projects data
             $projects = [];
-            if (isset($validated['project_titles']) && is_array($validated['project_titles'])) {
-                foreach ($validated['project_titles'] as $index => $projectTitle) {
-                    if (empty($projectTitle)) continue;
-
-                    $details = [];
-                    if (isset($validated['project_details'][$index]) && is_array($validated['project_details'][$index])) {
-                        foreach ($validated['project_details'][$index] as $detail) {
-                            if (!empty($detail)) {
-                                $details[] = $detail;
-                            }
-                        }
-                    }
-
-                    $projects[$projectTitle] = $details;
+            if ($request->has('projects_json')) {
+                $projects = json_decode($request->input('projects_json'), true) ?? [];
+            } else {
+                // Process data from traditional form
+                $projectTitles = $request->input('project_titles', []);
+                $projectDetails = $request->input('project_details', []);
+                
+                foreach ($projectTitles as $index => $title) {
+                    if (empty($title)) continue;
+                    
+                    $details = $projectDetails[$index] ?? [];
+                    $projects[$title] = array_filter($details, function($detail) {
+                        return !empty($detail);
+                    });
                 }
             }
 
-            // تحويل المصفوفات إلى JSON
-            $contentJson = json_encode($content);
-            $objectivesJson = json_encode($objectives);
-            $projectsJson = json_encode($projects);
-
-            // إنشاء معلومات الدورة
+            // Create course info
             CourseInfo::create([
                 'course_id' => $course->id,
                 'about' => $validated['about'] ?? $validated['description'],
-                'content' => $contentJson,
-                'objectives' => $objectivesJson,
-                'projects' => $projectsJson,
+                'content' => $content,
+                'objectives' => $objectives,
+                'projects' => $projects,
             ]);
 
-            // إعادة التوجيه مع رسالة نجاح
-            return redirect()->route('trainer.index')
-                ->with('success', 'تم إنشاء الدورة بنجاح');
+            // Return success response
+            return response()->json([
+                'success' => true,
+                'message' => 'Course created successfully',
+                'redirect' => route('trainer.index'),
+                'course' => $course
+            ]);
 
         } catch (\Exception $e) {
-            // تسجيل الخطأ
+            // Log error
             \Log::error('Error creating course: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
             
-            // إعادة التوجيه مع رسالة خطأ
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'حدث خطأ أثناء إنشاء الدورة: ' . $e->getMessage());
+            // Return error response
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while creating the course: ' . $e->getMessage()
+            ], 500);
         }
     }
 

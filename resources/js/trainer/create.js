@@ -35,6 +35,139 @@ $(document).ready(function () {
     console.log("Review title element exists:", $('#review-title').length > 0);
     console.log("Review description element exists:", $('#review-description').length > 0);
     console.log("Review objectives element exists:", $('#review-objectives').length > 0);
+
+    $('#course-form').on('submit', function (e) {
+        e.preventDefault();
+        console.log("Form submitted");
+        
+        // Collect basic course data
+        const formData = new FormData(this);
+        
+        // Collect objectives
+        const objectives = [];
+        $('.objective-item input').each(function() {
+            const value = $(this).val().trim();
+            if (value) {
+                objectives.push(value);
+            }
+        });
+        
+        // Collect content data
+        const content = {};
+        const contentSections = $('.content-section');
+        
+        contentSections.each(function(sectionIndex) {
+            const sectionName = $(this).find('input[name="content_sections[]"]').val().trim();
+            if (sectionName) {
+                const lessons = [];
+                $(this).find(`input[name="lessons[${sectionIndex}][]"]`).each(function() {
+                    if ($(this).val().trim()) {
+                        lessons.push($(this).val().trim());
+                    }
+                });
+                content[sectionName] = lessons;
+            }
+        });
+        
+        // Collect project data
+        const projects = {};
+        const projectItems = $('.project-item');
+        
+        projectItems.each(function(projectIndex) {
+            const projectTitle = $(this).find('input[name="project_titles[]"]').val().trim();
+            if (projectTitle) {
+                const details = [];
+                $(this).find(`input[name="project_details[${projectIndex}][]"]`).each(function() {
+                    if ($(this).val().trim()) {
+                        details.push($(this).val().trim());
+                    }
+                });
+                projects[projectTitle] = details;
+            }
+        });
+        
+        // Add content and projects as JSON
+        formData.append('objectives_json', JSON.stringify(objectives));
+        formData.append('content_json', JSON.stringify(content));
+        formData.append('projects_json', JSON.stringify(projects));
+        
+        console.log("Objectives:", objectives);
+        console.log("Content JSON:", content);
+        console.log("Projects JSON:", projects);
+        
+        // Show loading state
+        $('#create-course').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Creating...');
+        
+        // Send data using AJAX
+        $.ajax({
+            url: $(this).attr('action'),
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                console.log("Form submission successful");
+                console.log(response);
+                
+                // Show success message
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Course created successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'View Courses'
+                }).then((result) => {
+                    // Redirect user to courses page
+                    window.location.href = response.redirect || '/trainer';
+                });
+            },
+            error: function (xhr) {
+                console.error("Form submission failed");
+                console.error(xhr);
+                
+                // Reset button state
+                $('#create-course').prop('disabled', false).html('Create Course');
+                
+                // Show error message
+                let errorMessage = 'An error occurred while creating the course.';
+                let errorDetails = '';
+                
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    errorMessage += ' Please check the entered data.';
+                    
+                    // Collect detailed errors
+                    const errors = xhr.responseJSON.errors;
+                    for (const field in errors) {
+                        errorDetails += `<li>${errors[field]}</li>`;
+                    }
+                }
+                
+                Swal.fire({
+                    title: 'Error!',
+                    html: `${errorMessage}${errorDetails ? '<ul class="text-left mt-3">' + errorDetails + '</ul>' : ''}`,
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                });
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
+
 
 

@@ -40,7 +40,29 @@ class CreateCourseRequest extends FormRequest
             'project_details' => 'nullable|array',
             'project_details.*' => 'nullable|array',
             'project_details.*.*' => 'nullable|string',
+            'content_json' => 'nullable|json',
+            'projects_json' => 'nullable|json',
         ];
+    }
+    /**
+     * تعديل البيانات قبل التحقق
+     */
+    protected function prepareForValidation()
+    {
+        // التحقق من أن المحتوى والمشاريع هي نصوص JSON صالحة
+        if ($this->has('content_json') && is_string($this->content_json)) {
+            $content = json_decode($this->content_json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->merge(['content_json' => '{}']);
+            }
+        }
+        
+        if ($this->has('projects_json') && is_string($this->projects_json)) {
+            $projects = json_decode($this->projects_json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                $this->merge(['projects_json' => '{}']);
+            }
+        }
     }
 
     /**
@@ -88,3 +110,4 @@ class CreateCourseRequest extends FormRequest
         ];
     }
 }
+

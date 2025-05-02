@@ -24,8 +24,26 @@ class CourseInfo extends Model
         'projects' => 'array',
     ];
 
+    // تحويل المصفوفات إلى JSON عند حفظها
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = is_array($value) ? json_encode($value) : $value;
+    }
+
+    public function setObjectivesAttribute($value)
+    {
+        $this->attributes['objectives'] = is_array($value) ? json_encode($value) : $value;
+    }
+
+    public function setProjectsAttribute($value)
+    {
+        $this->attributes['projects'] = is_array($value) ? json_encode($value) : $value;
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class);
     }
 }
+
+
