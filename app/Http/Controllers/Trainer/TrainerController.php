@@ -156,11 +156,11 @@ class TrainerController extends Controller
     }
 
   
-    public function edit($id)
+    public function edit(Course $course)
     {
-        $course = Course::with('courseInfo')->findOrFail($id);
+        $course = Course::findOrFail($course->id);
         
-        // Check if the logged-in trainer owns this course
+        // Check if the logged-in trainer owns this c->ourse
         if ($course->trainer_id !== auth()->id()) {
             return redirect()->route('trainer.index')->with('error', 'You are not authorized to edit this course.');
         }
@@ -196,5 +196,3 @@ class TrainerController extends Controller
         //
     }
 }
-
-

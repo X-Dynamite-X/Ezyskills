@@ -87,15 +87,15 @@
             <!-- Step 1: Basic Information -->
             @include('trainer.courses.section.step1',['course'=>$course])
             <!-- Step 2: Objectives -->
-            @include('trainer.courses.section.step2')
+            @include('trainer.courses.section.step2',['course'=>$course])
 
             <!-- Step 3: Content -->
-            @include('trainer.courses.section.step3')
+            @include('trainer.courses.section.step3',['course'=>$course])
             <!-- Step 4: Projects -->
-            @include('trainer.courses.section.step4')
+            @include('trainer.courses.section.step4',['course'=>$course])
 
             <!-- Step 4: Review & Submit -->
-            @include('trainer.courses.section.review')
+            @include('trainer.courses.section.review',['course'=>$course])
 
         </form>
     </div>

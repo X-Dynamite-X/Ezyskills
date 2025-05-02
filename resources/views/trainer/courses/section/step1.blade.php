@@ -6,7 +6,7 @@
               <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Course Title</label>
               <input type="text" name="title" id="title"
                   class="w-full px-4 py-2 border @error('title') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-[#FF914C] focus:border-[#FF914C]"
-                  placeholder="e.g. Angular JS Fundamentals" value="{{ $course->title  }}" required>
+                  placeholder="e.g. Angular JS Fundamentals" value="{{ $course->title }}" required>
               @error('title')
                   <p class="error-message">{{ $message }}</p>
               @enderror
@@ -26,7 +26,7 @@
               <label for="pricing" class="block text-sm font-medium text-gray-700 mb-1">pricing ($)</label>
               <input type="number" name="pricing" id="prpricingice" min="0" step="0.01"
                   class="w-full px-4 py-2 border @error('pricing') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-[#FF914C] focus:border-[#FF914C]"
-                  placeholder="e.g. 29.99" value="{{ $course->pricing  }}" required>
+                  placeholder="e.g. 29.99" value="{{ $course->pricing }}" required>
               @error('pricing')
                   <p class="error-message">{{ $message }}</p>
               @enderror
@@ -34,14 +34,14 @@
 
           <div>
               <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-              <select name="status" id="status" 
+              <select name="status" id="status"
                   class="w-full px-4 py-2 border @error('status') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-[#FF914C] focus:border-[#FF914C]"
                   required>
                   <option value="">Select status</option>
-                  <option value="Opened" {{ old('status') == 'Opened' ? 'selected' : '' }}>Opened</option>
-                  <option value="Coming Soon" {{ old('status') == 'Coming Soon' ? 'selected' : '' }}>Coming Soon
+                  <option value="Opened" {{ $course->status == 'Opened' ? 'selected' : '' }}>Opened</option>
+                  <option value="Coming Soon" {{ $course->status == 'Coming Soon' ? 'selected' : '' }}>Coming Soon
                   </option>
-                  <option value="Archived" {{ old('status') == 'Archived' ? 'selected' : '' }}>Archived</option>
+                  <option value="Archived" {{ $course->status == 'Archived' ? 'selected' : '' }}>Archived</option>
               </select>
               @error('status')
                   <p class="error-message">{{ $message }}</p>
@@ -53,7 +53,7 @@
                   (About)</label>
               <textarea name="about" id="about" rows="5"
                   class="w-full px-4 py-2 border @error('about') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-[#FF914C] focus:border-[#FF914C]"
-                  placeholder="Detailed description of your course">{{ old('about') }}</textarea>
+                  placeholder="Detailed description of your course">{{ $course->description }}</textarea>
               @error('about')
                   <p class="error-message">{{ $message }}</p>
               @enderror
