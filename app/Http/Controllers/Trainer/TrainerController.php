@@ -51,10 +51,7 @@ class TrainerController extends Controller
     public function store(CreateCourseRequest $request)
     {
         try {
-            // Validate data
             $validated = $request->validated();
-
-            // Process image
             if ($request->hasFile('image')) {
                 $path = $request->file('image')->store('courses', 'public');
                 $validated['image'] = $path;
@@ -64,13 +61,7 @@ class TrainerController extends Controller
                     'errors' => ['image' => 'Please upload a course image']
                 ], 422);
             }
-
             $validated['trainer_id'] = auth()->id();
-
-            // Log data for debugging
-            \Log::info('Validated data:', $validated);
-
-            // Create course
             $course = Course::create([
                 'title' => $validated['title'],
                 'description' => $validated['description'],
@@ -79,8 +70,6 @@ class TrainerController extends Controller
                 'pricing' => $validated['pricing'],
                 'status' => $validated['status'],
             ]);
-
-            // Process objectives data
             $objectives = [];
             if ($request->has('objectives_json')) {
                 $objectives = json_decode($request->input('objectives_json'), true) ?? [];
@@ -90,12 +79,12 @@ class TrainerController extends Controller
                 });
             }
 
-            // Process content data
+        
             $content = [];
             if ($request->has('content_json')) {
                 $content = json_decode($request->input('content_json'), true) ?? [];
             } else {
-                // Process data from traditional form
+                 
                 $contentSections = $request->input('content_sections', []);
                 $lessons = $request->input('lessons', []);
                 
@@ -108,8 +97,8 @@ class TrainerController extends Controller
                     });
                 }
             }
+    
             
-            // Process projects data
             $projects = [];
             if ($request->has('projects_json')) {
                 $projects = json_decode($request->input('projects_json'), true) ?? [];
@@ -166,12 +155,29 @@ class TrainerController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+  
+    public function edit($id)
     {
-        //
+        $course = Course::with('courseInfo')->findOrFail($id);
+        
+        // Check if the logged-in trainer owns this course
+        if ($course->trainer_id !== auth()->id()) {
+            return redirect()->route('trainer.index')->with('error', 'You are not authorized to edit this course.');
+        }
+        
+        return view('trainer.courses.edit', compact('course'));
+    }
+
+    public function getCourseData($id)
+    {
+        $course = Course::with('courseInfo')->findOrFail($id);
+        
+        // Check if the logged-in trainer owns this course
+        if ($course->trainer_id !== auth()->id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+        
+        return response()->json(['course' => $course]);
     }
 
     /**
@@ -190,3 +196,5 @@ class TrainerController extends Controller
         //
     }
 }
+
+

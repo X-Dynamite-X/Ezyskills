@@ -61,7 +61,10 @@
                         <button class="edit-course-btn flex items-center justify-center"
                             data-course-id="{{ $course->id }}" data-course-title="{{ $course->title }}"
                             data-course-description="{{ $course->description }}"
-                            data-course-pricing="{{ $course->pricing }}" data-course-status="{{ $course->status }}">
+                            data-course-pricing="{{ $course->pricing }}" data-course-status="{{ $course->status }}"
+                            data-course-image="{{ $course->image }}"
+                            onclick="window.location.href = '{{ route('trainer.edit', $course->id) }}'"
+                            >
                             <span
                                 class="inline-flex items-center justify-center w-9 h-9 bg-[#FF914C] text-white rounded-lg hover:bg-[#FF913d] transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24"
