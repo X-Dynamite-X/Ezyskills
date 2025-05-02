@@ -15,13 +15,13 @@ class Course extends Model
         'description',
         'image',
         'trainer_id',
-        'price',
+        'pricing',
         'status',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'price' => 'decimal:2',
+        'pricing' => 'decimal:2',
     ];
 
     public function trainer()

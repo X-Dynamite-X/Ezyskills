@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Http\Requests\Course;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CreateCourseRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'about' => 'nullable|string',
+            'pricing' => 'required|numeric|min:0',
+            'status' => 'required|in:Opened,Coming Soon,Archived',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'objectives' => 'nullable|array',
+            'objectives.*' => 'nullable|string',
+            'content_sections' => 'nullable|array',
+            'content_sections.*' => 'nullable|string',
+            'lessons' => 'nullable|array',
+            'lessons.*' => 'nullable|array',
+            'lessons.*.*' => 'nullable|string',
+            'project_titles' => 'nullable|array',
+            'project_titles.*' => 'nullable|string',
+            'project_details' => 'nullable|array',
+            'project_details.*' => 'nullable|array',
+            'project_details.*.*' => 'nullable|string',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'The course title is required.',
+            'title.max' => 'The course title must not exceed 255 characters.',
+            'description.required' => 'The course description is required.',
+            'pricing.required' => 'The course pricing is required.',
+            'pricing.numeric' => 'The course pricing must be a number.',
+            'pricing.min' => 'The course pricing must be 0 or more.',
+            'status.required' => 'The course status is required.',
+            'status.in' => 'The course status must be one of the available values.',
+            'image.required' => 'The course image is required.',
+            'image.image' => 'The attached file must be an image.',
+            'image.mimes' => 'The image must be in jpeg, png, or jpg format.',
+            'image.max' => 'The image size must not exceed 2MB.',
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes(): array
+    {
+        return [
+            'title' => 'Course Title',
+            'description' => 'Course Description',
+            'about' => 'Course Details',
+            'pricing' => 'Course pricing',
+            'status' => 'Course Status',
+            'image' => 'Course Image',
+            'objectives' => 'Course Objectives',
+            'content_sections' => 'Content Sections',
+            'lessons' => 'Lessons',
+            'project_titles' => 'Project Titles',
+            'project_details' => 'Project Details',
+        ];
+    }
+}

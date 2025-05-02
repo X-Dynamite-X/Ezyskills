@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CourseInfo extends Model
 {
-    //
+    use HasFactory;
+
     protected $fillable = [
         'course_id',
         'about',
@@ -14,22 +16,16 @@ class CourseInfo extends Model
         'objectives',
         'projects',
     ];
+
+    // تحويل الحقول من JSON إلى مصفوفات عند استرجاعها
     protected $casts = [
         'content' => 'array',
         'objectives' => 'array',
         'projects' => 'array',
     ];
+
     public function course()
     {
         return $this->belongsTo(Course::class);
     }
- 
-        public function enrolledUsers()
-    {
-        return $this->belongsToMany(User::class, 'enrollments')
-            ->withPivot(['status', 'enrolled_at', 'pricing_plan_id'])
-            ->withTimestamps();
-    }
-
-    
 }

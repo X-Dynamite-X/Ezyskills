@@ -10,16 +10,15 @@ class PricingPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'price',
+        'title',
         'description',
-        'features',
-        'user_id',
-        'credit'
+        'image',
+        'trainer_id',
+        'pricing',
+        'status'
     ];
-
     protected $casts = [
-        'price' => 'decimal:2',
+        'pricing' => 'int',
     ];
 
     public function user()
@@ -30,7 +29,7 @@ class PricingPlan extends Model
     // Get formatted price
     public function getFormattedPriceAttribute()
     {
-        return '$' . number_format($this->price, 2);
+        return '$' . number_format($this->pricing, 2);
     }
 
     // Get features as array
@@ -43,4 +42,3 @@ class PricingPlan extends Model
         return array_map('trim', explode(',', $this->features));
     }
 }
-

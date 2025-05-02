@@ -3,8 +3,7 @@ import $ from "jquery";
 $(document).ready(function () {
     $(document).on("click", ".info-student-btn", function () {
         // Get course ID and student data from data attribute
-        const courseId = $(this).data("course-id");
-        const studentData = $(this).data("studant-info");
+         const studentData = $(this).data("studant-info");
 
         // Get course title from the row
         const courseTitle = $(this)

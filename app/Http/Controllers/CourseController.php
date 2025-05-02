@@ -59,11 +59,7 @@ class CourseController extends Controller
         return view('courses.show', compact('course', 'isEnrolled',));
     }
 
-    public function create()
-    {
-        return view('courses.create');
-    }
-
+  
     public function store(Request $request)
     {
         $validated = $request->validate([
