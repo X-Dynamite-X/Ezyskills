@@ -21,10 +21,7 @@ class PricingPlan extends Model
         'pricing' => 'int',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    
 
     // Get formatted price
     public function getFormattedPriceAttribute()
@@ -41,4 +38,9 @@ class PricingPlan extends Model
 
         return array_map('trim', explode(',', $this->features));
     }
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'pricing_plan_users');
+    }
+
 }

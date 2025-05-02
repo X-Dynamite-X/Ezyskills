@@ -40,10 +40,10 @@ class CourseInfo extends Model
         $this->attributes['projects'] = is_array($value) ? json_encode($value) : $value;
     }
 
-    // public function course()
-    // {
-    //     return $this->belongsTo(Course::class);
-    // }
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
     public function courseInfo()
     {
         return $this->hasOne(CourseInfo::class);
