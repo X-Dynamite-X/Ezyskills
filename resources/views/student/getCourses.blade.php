@@ -5,7 +5,7 @@
              onclick="window.location='{{ route('courses.show', ['course' => $course->course->id]) }}'"
 
              >
-                 <img src="{{ asset($course->image ? 'storage/' . $course->image : 'img/course/image 29.png') }}"
+                 <img src="{{ asset($course->course->image ? 'storage/' . $course->course->image : 'img/course/image 29.png') }}"
                      alt="Vue JS" class="h-16">
              </div>
              <div class="bg-white mt-auto p-6 rounded-t-3xl flex-grow">
