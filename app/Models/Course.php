@@ -29,10 +29,16 @@ class Course extends Model
         return $this->belongsTo(User::class, 'trainer_id');
     }
 
-
-
-   
-
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+    public function enrolledUsers()
+    {
+        return $this->belongsToMany(User::class, 'enrollments')
+            
+            ->withTimestamps();
+    }
 
     public function courseInfo()
     {

@@ -21,7 +21,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(12);
+        $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(8);
 
         return view("student.index", compact('courses'));
     }
@@ -31,10 +31,10 @@ class StudentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-        if ($this->user->id !== $enrollment->user_id) {
-            return redirect()->route('courses.show', $enrollment->course_id);
-        }
         $enrollment = Enrollment::findOrFail($enrollment->id);
+        if ($this->user->id !== $enrollment->user_id) {
+            return redirect()->route('courses');
+        }
         return view("student.show", compact('enrollment'));
     }
 
@@ -43,6 +43,7 @@ class StudentController extends Controller
      */
     public function store(Request $request, Course $course)
     {
+        $course = Course::findOrFail($course->id);
         if ($course->user_id == $this->user->id) {
             return redirect()->back()->with('error', 'You cannot enroll in your own course.');
         }
@@ -53,6 +54,7 @@ class StudentController extends Controller
             return redirect()->route('courses.show', $course->id)
                 ->with('info', 'You are already enrolled in this course.');
         }
+
         if ($this->isAuth && $this->user->credit > 0) {
             $this->user->credit -= 1;
             $this->user->save();
@@ -62,6 +64,13 @@ class StudentController extends Controller
                 'usePlan' => true,
                 'enrolled_at' => now(),
             ]);
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'You have successfully enrolled in the course',
+                    // 'redirect' => route('student.show', $course->id),
+                    'redirect' => redirect()->intended('/student')->getTargetUrl()
+                ]);
+            }
             return redirect()->route('courses.show', $course->id);
         }
         Enrollment::create([
@@ -70,8 +79,14 @@ class StudentController extends Controller
             'usePlan' => false,
             'enrolled_at' => now(),
         ]);
+        if($request->ajax()){
+                return response()->json([
+                    'message' => 'You have successfully enrolled in the course',
+                    // 'redirect' => route('student.show', $course->id),
+                'redirect' => redirect()->intended('/student')->getTargetUrl()
+                ]);
+        }
 
-
-        return redirect()->route('courses.show', $course->id);
+        return redirect()->route('student.show', $course->id);
     }
 }

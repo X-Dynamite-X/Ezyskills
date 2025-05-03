@@ -26,7 +26,7 @@
                          Live Demo
                      </button>
                      <button
-                         onclick="window.location='{{ route('student.show', ['course' => $course->course->id]) }}'"
+                         onclick="window.location='{{ route('student.show', ['enrollment' => $course->id]) }}'"
                          class="flex items-center gap-2 px-4 py-2 border border-[#FF914C] rounded-lg hover:bg-[#FF914C] hover:text-white transition">
                          Start Lirning
                      </button>

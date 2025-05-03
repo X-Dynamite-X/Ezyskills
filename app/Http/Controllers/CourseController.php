@@ -6,7 +6,7 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+
 
 class CourseController extends Controller
 {
@@ -33,7 +33,7 @@ class CourseController extends Controller
             $courses = $query->with('trainer')
                 ->orderBy('created_at', 'desc')
                 ->paginate(8);
-            
+
             return response()->json([
                 'courses' => view('courses.getCourses', compact('courses'))->render(),
                 'pagination' => $courses->links()->render(),

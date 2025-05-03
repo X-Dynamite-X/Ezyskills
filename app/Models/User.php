@@ -79,6 +79,6 @@ class User extends Authenticatable
     }
     public function pricingPlans()
     {
-        return $this->hasMany(PricingPlan::class);
+        return $this->hasMany(PricingPlanUser::class);
     }
 }

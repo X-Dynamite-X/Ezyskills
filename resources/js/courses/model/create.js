@@ -53,6 +53,7 @@ $(document).ready(function () {
             success: function (response) {
                 // Show success message
                 const myCredit = $("#mycredit").data("credit");
+                window.location.href = response.redirect;
                 if (myCredit >= 1) {
                     $("#mycredit")
                         .data("credit", myCredit - 1)

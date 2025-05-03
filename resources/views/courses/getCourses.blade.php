@@ -21,11 +21,19 @@
                          </svg>
                          Live Demo
                      </button>
-                     <button data-course-id="{{ $course->id }}" data-course-title="{{ $course->title }}"
+                     @if($course->enrollments()->where('user_id', auth()->id())->exists())
+                         <a
+                         href="{{ route('student.show', ['enrollment' => $course->enrollments()->where('user_id', auth()->id())->first()->id]) }}"
+                         class="flex items-center gap-2 px-4 py-2 border border-[#FF914C] rounded-lg hover:bg-[#FF914C] hover:text-white transition">
+                         Start Lirning
+                     </a>
+                     @else
+                      <button data-course-id="{{ $course->id }}" data-course-title="{{ $course->title }}"
                          data-course-price="{{ $course->pricing }}" data-course-description="{{ $course->description }}"
                          class="purchase-course-btn flex items-center gap-2 px-4 py-2 border border-[#FF914C] rounded-lg hover:bg-[#FF914C] hover:text-white transition buyCourseBtn">
                          Enroll Now
                      </button>
+                     @endif
                  </div>
                  <button class="w-full bg-[#FF914C] text-white py-2 rounded-lg hover:bg-[#e87f3d] transition">
                      Download Curriculum
@@ -54,7 +62,5 @@
                  Reset Filters
              </button>
          </form>
-
-
      </div>
  @endif

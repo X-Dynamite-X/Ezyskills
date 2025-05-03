@@ -1,6 +1,6 @@
  @extends('layouts.app')
  @section('title')
-     {{ $course->title }} Course
+     {{ $enrollment->course->title }} Course
  @endsection
 
  @section('css')
@@ -8,7 +8,7 @@
 
  @section('main')
      <!-- Hero Section with improved design -->
-     @include('section.corses.ferstSection',compact('course'))
+     @include('student.corses.ferstSection',compact('enrollment'))
 
      <div class="container mx-auto px-4">
 
@@ -19,15 +19,15 @@
              <!-- Left Content -->
 
              <div class="lg:col-span-2 w-full">
-                 @include('section.corses.rightSidebar' ,compact('course'))
+                 @include('student.corses.rightSidebar' ,compact('enrollment'))
              </div>
-             @include('section.corses.courseContent',compact('course'))
+             @include('student.corses.courseContent',compact('enrollment'))
 
              <!-- Right Sidebar -->
 
          </div>
 
 
-         @include('section.corses.projects',compact('course'))
+         @include('student.corses.projects',compact('enrollment'))
      </div>
  @endsection
