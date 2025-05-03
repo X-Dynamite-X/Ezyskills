@@ -43,7 +43,16 @@ class StudentController extends Controller
      */
     public function store(Request $request, Course $course)
     {
-
+        if ($course->user_id == $this->user->id) {
+            return redirect()->back()->with('error', 'You cannot enroll in your own course.');
+        }
+        $alreadyEnrolled = Enrollment::where('user_id', $this->user->id)
+            ->where('course_id', $course->id)
+            ->exists();
+        if ($alreadyEnrolled) {
+            return redirect()->route('courses.show', $course->id)
+                ->with('info', 'You are already enrolled in this course.');
+        }
         if ($this->isAuth && $this->user->credit > 0) {
             $this->user->credit -= 1;
             $this->user->save();

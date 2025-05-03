@@ -7,6 +7,7 @@ use App\Http\Requests\PricingPlan\UpdatePricingPlanRequest;
 
 use App\Models\Course;
 use App\Models\PricingPlan;
+use App\Models\PricingPlanUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -33,8 +34,24 @@ class PricingPlanController extends Controller
         $pricingPlanData = $request->validated();
         $pricingPlanData['course_id'] = $course->id;
 
-        $pricingPlan = PricingPlan::create($pricingPlanData);
 
+        $pricingPlan = PricingPlan::create($pricingPlanData);
+        $existingSubscription = PricingPlanUser::where('user_id', $this->auth->id)
+            ->where('plane_id', $pricingPlan->id)
+            ->first();
+
+        if ($existingSubscription) {
+            $existingSubscription->subscription_number += 1;
+            $existingSubscription->subscribed_at = now(); 
+            $existingSubscription->save();
+        } else {
+            PricingPlanUser::create([
+                'user_id' => $this->auth->id,
+                'plane_id' => $pricingPlan->id,
+                'subscription_number' => 1,
+                'subscribed_at' => now(),
+            ]);
+        }
         return response()->json(["pricingPlan" => $pricingPlan]);
     }
 

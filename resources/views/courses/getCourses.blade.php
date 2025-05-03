@@ -1,13 +1,12 @@
  @if ($courses->count() > 0)
      @foreach ($courses as $course)
-         <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full"
-             onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
+         <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full">
              <div class="p-8 flex justify-center flex-shrink-0"
                  onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
-                 <img src="{{ asset($course->image?'storage/'.$course->image :'img/course/image 29.png') }}" alt="Vue JS" class="h-16">
+                 <img src="{{ asset($course->image ? 'storage/' . $course->image : 'img/course/image 29.png') }}"
+                     alt="Vue JS" class="h-16">
              </div>
-             <div class="bg-white mt-auto p-6 rounded-t-3xl flex-grow"
-                 onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
+             <div class="bg-white mt-auto p-6 rounded-t-3xl flex-grow">
                  <h3 class="text-2xl font-semibold text-center mb-4 ">{{ $course->title }}</h3>
                  <p class="text-gray-600 text-sm text-center mb-6">
                      {{ $course->description }}
@@ -22,8 +21,9 @@
                          </svg>
                          Live Demo
                      </button>
-                     <button
-                         class="flex items-center gap-2 px-4 py-2 border border-[#FF914C] rounded-lg hover:bg-[#FF914C] hover:text-white transition">
+                     <button data-course-id="{{ $course->id }}" data-course-title="{{ $course->title }}"
+                         data-course-price="{{ $course->pricing }}" data-course-description="{{ $course->description }}"
+                         class="purchase-course-btn flex items-center gap-2 px-4 py-2 border border-[#FF914C] rounded-lg hover:bg-[#FF914C] hover:text-white transition buyCourseBtn">
                          Enroll Now
                      </button>
                  </div>
@@ -44,16 +44,16 @@
          <h3 class="text-3xl font-bold text-[#003F7D] mb-3">No Courses Found</h3>
          <p class="text-gray-500 text-center max-w-md mb-8">We haven't added any courses that match your criteria yet.
              Please check back later or try different filters.</p>
-       <form id="resetFiltersForm">
-    <button type="button" id="resetFiltersBtn"
-        class="bg-[#FF914C] text-white px-8 py-3 rounded-lg hover:bg-[#e87f3d] transition-all duration-300 flex items-center gap-2">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-        </svg>
-        Reset Filters
-    </button>
-</form>
+         <form id="resetFiltersForm">
+             <button type="button" id="resetFiltersBtn"
+                 class="bg-[#FF914C] text-white px-8 py-3 rounded-lg hover:bg-[#e87f3d] transition-all duration-300 flex items-center gap-2">
+                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                 </svg>
+                 Reset Filters
+             </button>
+         </form>
 
 
      </div>

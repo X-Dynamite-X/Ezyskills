@@ -73,4 +73,7 @@
         </div>
         {{ $courses->links() }}
     </div>
+    <div class="modal-container">
+         @include('courses.model.create')
+     </div>
 @endsection

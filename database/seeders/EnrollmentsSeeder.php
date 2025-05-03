@@ -20,7 +20,6 @@ class EnrollmentsSeeder extends Seeder
             $enrollments = [
                 'user_id' => $i,
                 'course_id' => 1,
-                'status' => 'approved',
                 'enrolled_at' => now(),
             ];
             Enrollment::create($enrollments);

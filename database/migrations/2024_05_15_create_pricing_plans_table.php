@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pricing_plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->decimal('price', 8, 2);
+            $table->decimal('pricing', 8, 2);
             $table->text('description')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->text('features')->nullable();

@@ -6,7 +6,7 @@
       <div class="p-5">
           <div class="mb-4 flex items-end">
               <span class="text-3xl font-bold text-[#003F7D] plan-price"
-                  id='plan-price'>${{ number_format($plan->price, 2) }}</span>
+                  id='plan-price'>${{ number_format($plan->pricing, 2) }}</span>
           </div>
           <div class="mb-4">
               <p class="text-gray-600 plan-description">{{ $plan->description }}</p>
@@ -33,7 +33,7 @@
           </div>
           <div class="flex space-x-2">
               <button id='editPlanBtn_{{ $plan->id }}' data-plan-id="{{ $plan->id }}"
-                  data-plan-name="{{ $plan->name }}" data-plan-price="{{ $plan->price }}"
+                  data-plan-name="{{ $plan->name }}" data-plan-price="{{ $plan->pricing }}"
                   data-plan-credits="{{ $plan->credit }}" data-plan-features="{{ $plan->features }}"
                   data-plan-description="{{ $plan->description }}"
                   class="edit-plan-btn flex-1 py-2 bg-[#003F7D] text-white rounded hover:bg-[#003F7D]/90 transition-colors duration-300 flex items-center justify-center">

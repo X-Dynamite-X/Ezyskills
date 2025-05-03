@@ -30,4 +30,5 @@
 
          @include('section.corses.projects',compact('course'))
      </div>
+     
  @endsection

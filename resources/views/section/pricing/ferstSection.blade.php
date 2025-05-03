@@ -36,7 +36,7 @@
 
                                 {{-- Price section --}}
                                 <div class="text-center mt-8 text-white">
-                                    <h1 class="text-4xl font-bold">₹ {{ $pricing->price }} <span
+                                    <h1 class="text-4xl font-bold">₹ {{ $pricing->pricing }} <span
                                             class="text-lg font-normal">+ Tax</span></h1>
                                     <p class="text-sm mt-1">(Exclusive of GST & Taxes)</p>
                                 </div>
