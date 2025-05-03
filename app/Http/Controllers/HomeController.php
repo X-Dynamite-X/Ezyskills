@@ -14,10 +14,14 @@ class HomeController extends Controller
     {
         $query = Course::query();
         $courses = $query->with('trainer')
-            ->orderBy('created_at', 'desc')
+            ->withCount('enrolledUsers')
+            ->whereHas('enrolledUsers')
+            ->orderBy('enrolled_users_count', 'desc')
             ->paginate(8);
+     
         return view('home', compact('courses'));
     }
+
 
     /**
      * Show the form for creating a new resource.

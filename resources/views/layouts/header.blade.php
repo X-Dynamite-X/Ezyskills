@@ -10,6 +10,8 @@
                 class="hover:text-[#FF8B36] {{ request()->routeIs('pricing') ? 'text-[#FF8B36]' : '' }}">pricing</a>
             <a href="{{ route('courses') }}"
                 class="hover:text-[#FF8B36] {{ request()->routeIs('courses') ? 'text-[#FF8B36]' : '' }}">Courses</a>
+                   <a href="{{ route('student.index') }}"
+                class="hover:text-[#FF8B36] {{ request()->routeIs('student.index') ? 'text-[#FF8B36]' : '' }}">My Courses</a>
             <a href="{{ route('contactUs') }}"
                 class="hover:text-[#FF8B36] {{ request()->routeIs('contact') ? 'text-[#FF8B36]' : '' }}">Contact Us</a>
             <a href="{{ route('faq') }}"
@@ -93,11 +95,4 @@
     </div>
 </header>
 
-
-{{--
-
-
-
-
-
---}}
+ 

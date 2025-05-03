@@ -2,7 +2,7 @@
      @foreach ($courses as $course)
          <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full">
              <div class="p-8 flex justify-center flex-shrink-0"
-             onclick="window.location='{{ route('courses.show', ['course' => $course->course->id]) }}'"
+             onclick="window.location='{{ route('student.show', ['enrollment' => $course->id]) }}'"
 
              >
                  <img src="{{ asset($course->course->image ? 'storage/' . $course->course->image : 'img/course/image 29.png') }}"

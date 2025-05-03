@@ -34,10 +34,17 @@
                 <div id="purchase-status" class="hidden mb-4 p-3 rounded-lg"></div>
 
                 <div class="flex justify-center mt-6">
-                    <button type="button" id="confirmPurchase"
-                        class="text-white bg-[#FF914C] hover:bg-[#e67d2e] focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
-                        Confirm Purchase
-                    </button>
+                    @auth
+                        <button type="button" id="confirmPurchase"
+                            class="text-white bg-[#FF914C] hover:bg-[#e67d2e] focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Confirm Purchase
+                        </button>
+                    @else
+                        <button onclick="window.location.href = '{{ route('login') }}';"
+                            class="text-white bg-[#FF914C] hover:bg-[#e67d2e] focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                            Login first
+                        </button>
+                    @endauth
                     <button type="button"
                         class="close-confirm-modal text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">
                         Cancel

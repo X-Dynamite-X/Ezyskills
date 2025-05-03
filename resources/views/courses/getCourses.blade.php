@@ -2,7 +2,14 @@
      @foreach ($courses as $course)
          <div class="bg-[#003F7D] rounded-lg overflow-hidden flex flex-col h-full">
              <div class="p-8 flex justify-center flex-shrink-0"
-                 onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'">
+             @if($course->enrollments()->where('user_id', auth()->id())->exists() && Auth::check())
+                 onclick="window.location='{{  route('student.show', ['enrollment' => $course->enrollments()->where('user_id', auth()->id())->first()->id]) }}'"
+                 @else
+                 onclick="window.location='{{ route('courses.show', ['course' => $course->id]) }}'"
+             @endif
+
+
+                 >
                  <img src="{{ asset($course->image ? 'storage/' . $course->image : 'img/course/image 29.png') }}"
                      alt="Vue JS" class="h-16">
              </div>
