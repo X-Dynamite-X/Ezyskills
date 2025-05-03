@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
- 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -53,7 +53,7 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
- 
+
     public function courses()
     {
         return $this->hasMany(Course::class, 'trainer_id');

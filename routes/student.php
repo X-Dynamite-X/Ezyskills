@@ -1,15 +1,14 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
 
-Route::get('/contactUs', function () {
-    return view('contactUs');
-})->name('contactUs');
-Route::get('/faq', function () {
-    return view('faq');
-})->name('faq');
+Route::middleware(['auth', "role:student"])->group(function () {
+    Route::get("student", [StudentController::class, 'index'])->name("student.index");
+    Route::post("student/{course}", [StudentController::class, 'store'])->name("student.store");
+    Route::get("student/{course}", [StudentController::class, 'show'])->name("student.show");
+
+
+});

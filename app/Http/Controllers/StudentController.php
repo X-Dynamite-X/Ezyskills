@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
-    protected $auth;
+    protected $user, $isAuth;
     public function __construct()
     {
-        $this->auth = Auth::user();
+        $this->user = Auth::user();
+        $this->isAuth = Auth::check();
     }
 
     /**
@@ -19,66 +21,48 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
-        return view("student.index");
+        $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(12);
+
+        return view("student.index", compact('courses'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function show(Enrollment $enrollment)
     {
-        //
+        if ($this->user->id !== $enrollment->user_id) {
+            return redirect()->route('courses.show', $enrollment->course_id);
+        }
+        $enrollment = Enrollment::findOrFail($enrollment->id);
+        return view("student.show", compact('enrollment'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request ,Course $course)
+    public function store(Request $request, Course $course)
     {
 
-        if(Auth::chack() && $this->auth->credit >0){
-
-            $this->auth->credit -= 1;
-            $this->auth->save();
-            $course->enrolledUsers()->attach($this->auth->id);
+        if ($this->isAuth && $this->user->credit > 0) {
+            $this->user->credit -= 1;
+            $this->user->save();
+            Enrollment::create([
+                'user_id' => $this->user->id,
+                'course_id' => $course->id,
+                'usePlan' => true,
+                'enrolled_at' => now(),
+            ]);
             return redirect()->route('courses.show', $course->id);
         }
-        
+        Enrollment::create([
+            'user_id' => $this->user->id,
+            'course_id' => $course->id,
+            'usePlan' => false,
+            'enrolled_at' => now(),
+        ]);
 
-        $course->enrolledUsers()->attach($this->auth->id);
+
         return redirect()->route('courses.show', $course->id);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

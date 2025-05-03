@@ -44,13 +44,17 @@ class UpdateCourseRequest extends FormRequest
             'projects_json' => 'nullable|json',
         ];
     }
+
     /**
-     * تعديل البيانات قبل التحقق
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     *
+     * 
      */
     protected function prepareForValidation()
     {
-        // التحقق من أن المحتوى والمشاريع هي نصوص JSON صالحة
-        if ($this->has('content_json') && is_string($this->content_json)) {
+         if ($this->has('content_json') && is_string($this->content_json)) {
             $content = json_decode($this->content_json, true);
             if (json_last_error() !== JSON_ERROR_NONE) {
                 $this->merge(['content_json' => '{}']);
@@ -65,11 +69,6 @@ class UpdateCourseRequest extends FormRequest
         }
     }
 
-    /**
-     * Get custom messages for validator errors.
-     *
-     * @return array
-     */
     public function messages(): array
     {
         return [

@@ -33,7 +33,7 @@ class CourseController extends Controller
             $courses = $query->with('trainer')
                 ->orderBy('created_at', 'desc')
                 ->paginate(8);
-
+            
             return response()->json([
                 'courses' => view('courses.getCourses', compact('courses'))->render(),
                 'pagination' => $courses->links()->render(),
@@ -57,78 +57,6 @@ class CourseController extends Controller
             ->exists();
         }
         return view('courses.show', compact('course', 'isEnrolled',));
-    }
-
-  
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:Opened,Coming Soon,Archived',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('courses', 'public');
-            $validated['image'] = $path;
-        }
-
-        $validated['trainer_id'] = Auth::id();
-
-        $course = Course::create($validated);
-
-        return redirect()->route('courses.show', $course)
-            ->with('success', 'Course created successfully.');
-    }
-
-    public function edit(Course $course)
-    {
-        $this->authorize('update', $course);
-        return view('courses.edit', compact('course'));
-    }
-
-    public function update(Request $request, Course $course)
-    {
-        $this->authorize('update', $course);
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'status' => 'required|in:Opened,Coming Soon,Archived',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
-        ]);
-
-        if ($request->hasFile('image')) {
-            // Delete old image
-            if ($course->image) {
-                Storage::disk('public')->delete($course->image);
-            }
-            $path = $request->file('image')->store('courses', 'public');
-            $validated['image'] = $path;
-        }
-
-        $course->update($validated);
-
-        return redirect()->route('courses.show', $course)
-            ->with('success', 'Course updated successfully.');
-    }
-
-    public function destroy(Course $course)
-    {
-        $this->authorize('delete', $course);
-
-        // Delete course image
-        if ($course->image) {
-            Storage::disk('public')->delete($course->image);
-        }
-
-        $course->delete();
-
-        return redirect()->route('courses.index')
-            ->with('success', 'Course deleted successfully.');
     }
 
     public function enroll(Course $course)

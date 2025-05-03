@@ -31,12 +31,7 @@ class Course extends Model
 
 
 
-    public function enrolledUsers()
-    {
-        return $this->belongsToMany(User::class, 'enrollments')->select([ 'email'])->withTimestamps()
-
-        ;
-    }
+   
 
 
     public function courseInfo()
