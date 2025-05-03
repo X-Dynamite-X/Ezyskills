@@ -130,7 +130,8 @@ class TrainerController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Course created successfully',
-                'redirect' => route('courses.show', $course->id),
+
+                'redirect' =>  redirect()->route('courses.show', $course->id),
                 'course' => $course
             ]);
         } catch (\Exception $e) {
@@ -266,7 +267,7 @@ class TrainerController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Course created successfully',
-            'redirect' => route('courses.show', $course->id),
+            'redirect' =>  redirect()->route('courses.show', $course->id),
             'course' => $course
         ]);
     }

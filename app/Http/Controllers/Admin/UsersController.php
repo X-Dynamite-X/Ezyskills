@@ -49,7 +49,8 @@ class UsersController extends Controller
             return response()->json([
                 'message' => 'User updated successfully',
                 'user' => $user,
-                'status' => $validated['status']
+                'status' => $validated['status'],
+                
             ]);
         }
 
