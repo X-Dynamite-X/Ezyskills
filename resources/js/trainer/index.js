@@ -4,6 +4,8 @@ import "./delete";
 import "./studant";
 import "./courseInfo";
 import "./create";
+import "./edit";
+
 
 // تنفيذ الكود عند تحميل الصفحة
 $(document).ready(function () {

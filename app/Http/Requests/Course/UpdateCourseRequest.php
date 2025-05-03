@@ -4,14 +4,14 @@ namespace App\Http\Requests\Course;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCourseRequest extends FormRequest
+class UpdateCourseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasRole('trainer');
+        return auth()->user()->hasRole('trainer') && auth()->user()->id == $this->route('course')->trainer_id;
     }
 
     /**

@@ -9,7 +9,8 @@
 
                       @if (isset($course) && $course->image)
                           <img src="{{ asset('storage/' . $course->image) }}" alt="{{ $course->title }}"
-                              class="w-full h-full object-cover">
+                                id="image-edit"
+                                class="w-full h-full object-cover">
                       @else
                           <span class="text-gray-400">No image selected</span>
                       @endif

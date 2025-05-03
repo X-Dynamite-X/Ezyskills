@@ -64,6 +64,7 @@
               <div class="flex items-center space-x-4">
                   <div class="flex-1">
                       <input type="file" name="image" id="image" accept="image/jpeg,image/png,image/jpg"
+                      data-preview-image-url="{{$course->image }}"
                           class="w-full px-4 py-2 border @error('image') border-red-500 @else border-gray-300 @enderror rounded-lg focus:ring-[#FF914C] focus:border-[#FF914C]">
                       @error('image')
                           <p class="error-message">{{ $message }}</p>

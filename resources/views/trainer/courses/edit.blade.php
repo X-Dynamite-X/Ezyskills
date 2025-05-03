@@ -81,9 +81,10 @@
             </div>
         </div>
 
-        <form id="course-form" method="POST" action="{{ route('trainer.store') }}" enctype="multipart/form-data"
+        <form id="course-form-edit" method="POST" action="{{ route('trainer.update', $course->id) }}" enctype="multipart/form-data"
             class="bg-white rounded-lg shadow-md overflow-hidden">
             @csrf
+            @method('PUT')
             <!-- Step 1: Basic Information -->
             @include('trainer.courses.section.step1',['course'=>$course])
             <!-- Step 2: Objectives -->

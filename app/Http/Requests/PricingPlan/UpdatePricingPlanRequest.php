@@ -12,7 +12,7 @@ class UpdatePricingPlanRequest extends FormRequest
      */
     public function authorize(): bool
     {
-         return Auth::check() && Auth::user()->hasRole(['admin']) ;//&& $this->user_id == Auth::user()->id;
+        return Auth::check() && Auth::user()->hasRole(['admin']) ;
     }
 
     /**
