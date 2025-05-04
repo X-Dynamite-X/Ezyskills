@@ -126,11 +126,14 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 console.log("Form submission successful");
+                console.log(response.redirect);
                 console.log(response);
 
                 // Show success message
+                window.location.href = `/courses/${response.course.id}`;
 
-                window.location.href = response.redirect || "/trainer";
+                // window.location.href = response.redirect || "/trainer";
+
             },
             error: function (xhr) {
                 console.error("Form submission failed");

@@ -20,7 +20,7 @@ class Course extends Model
     ];
 
     protected $casts = [
- 
+
         'pricing' => 'decimal:2',
     ];
 
@@ -40,6 +40,12 @@ class Course extends Model
             ->withTimestamps();
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, "enrollments")
+
+            ->withTimestamps();
+    }
     public function courseInfo()
     {
         return $this->hasOne(CourseInfo::class);

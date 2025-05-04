@@ -27,24 +27,15 @@ $(document).ready(function () {
 
     // Force update review section after a short delay to ensure all elements are loaded
     setTimeout(function () {
-        console.log("Forcing review section update");
+
         updateReviewSection();
     }, 1000);
 
-    // Debug: Check if review section elements exist
-    console.log("Review title element exists:", $("#review-title").length > 0);
-    console.log(
-        "Review description element exists:",
-        $("#review-description").length > 0
-    );
-    console.log(
-        "Review objectives element exists:",
-        $("#review-objectives").length > 0
-    );
+
 
     $("#course-form-edit").on("submit", function (e) {
         e.preventDefault();
-        console.log("Form submitted");
+
 
         // Collect basic course data
         const formData = new FormData(this);
@@ -106,7 +97,7 @@ $(document).ready(function () {
         formData.append("objectives_json", JSON.stringify(objectives));
         formData.append("content_json", JSON.stringify(content));
         formData.append("projects_json", JSON.stringify(projects));
-  
+
 
 
 
@@ -129,11 +120,12 @@ $(document).ready(function () {
             processData: false,
             success: function (response) {
                 console.log("Form submission successful");
+                console.log(response.redirect);
                 console.log(response);
 
                 // Show success message
 
-                window.location.href = response.redirect || "/trainer";
+                window.location.href = `/courses/${response.course.id}`;
             },
             error: function (xhr) {
                 console.error("Form submission failed");

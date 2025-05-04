@@ -59,32 +59,5 @@ class CourseController extends Controller
         return view('courses.show', compact('course', 'isEnrolled',));
     }
 
-    public function enroll(Course $course)
-    {
-        if (Enrollment::where('user_id', Auth::id())
-            ->where('course_id', $course->id)
-            ->exists()
-        ) {
-            return back()->with('error', 'You are already enrolled in this course.');
-        }
 
-        Enrollment::create([
-            'user_id' => Auth::id(),
-            'course_id' => $course->id,
-            'status' => 'active',
-            'progress' => 0
-        ]);
-
-        return back()->with('success', 'Successfully enrolled in the course.');
-    }
-
-    public function myCourses()
-    {
-        $enrolledCourses = Auth::user()
-            ->enrollments()
-            ->with('course.trainer')
-            ->paginate(12);
-
-        return view('courses.my-courses', compact('enrolledCourses'));
-    }
 }

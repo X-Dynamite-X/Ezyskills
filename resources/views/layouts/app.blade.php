@@ -22,7 +22,7 @@
 
     <!-- Header -->
     <div id="notifications">
-        <div
+        {{-- <div
             class="fixed top-4 right-4 z-50 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300 max-w-md">
             <button class="absolute top-2 right-2 text-white hover:bg-blue-600 rounded-full p-1  ml-2"
                 onclick="this.parentElement.remove()">
@@ -31,14 +31,14 @@
                     </path>
                 </svg>
             </button>
-        <div class="m-1 ">
-            tes tes tes test tse test test
-            tes tes tes test tse test test
-            tes tes tes test tse test test
+            <div class="m-1 ">
+                tes tes tes test tse test test
+                tes tes tes test tse test test
+                tes tes tes test tse test test
 
 
-        </div>
-        </div>
+            </div>
+        </div> --}}
 
     </div>
 
@@ -57,7 +57,11 @@
     @yield('js')
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-
+    @auth
+<script>
+    window.coursesList = @json(auth()->user()->enrollments()->pluck('course_id'));
+</script>
+    @endauth
 </body>
 
 </html>

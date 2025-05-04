@@ -26,7 +26,7 @@ class EnrollUserInCourseNotificationEvent implements ShouldBroadcast
     public function broadcastOn()
     {
 
-        // dd($this->trainerId);
+       
         return new PrivateChannel('trainer_channel_' . $this->trainerId);
     }
 

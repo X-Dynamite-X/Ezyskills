@@ -10,27 +10,30 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UpdateCourseNotificationEvent
+class UpdateCourseNotificationEvent  implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public $message;
+    public $courseId;
+
+    public function __construct($message, $courseId)
     {
-        //
+        $this->message = $message;
+        $this->courseId = $courseId;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): array
+
+    public function broadcastOn()
     {
-        return [
-            new PrivateChannel('channel-name'),
-        ];
+        return new PrivateChannel('course_channel_' . $this->courseId);
+    }
+
+    public function broadcastAs()
+    {
+        return 'course_event';
     }
 }

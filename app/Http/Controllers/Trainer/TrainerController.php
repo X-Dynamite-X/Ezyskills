@@ -7,6 +7,7 @@ use App\Http\Requests\Course\{CreateCourseRequest, UpdateCourseRequest};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{Course, CourseInfo};
+use App\Events\UpdateCourseNotificationEvent;
 
 class TrainerController extends Controller
 {
@@ -23,6 +24,7 @@ class TrainerController extends Controller
     public function index(Request $request)
     {
         //
+
         if ($request->ajax()) {
 
             $search = $request->input('search');
@@ -48,8 +50,7 @@ class TrainerController extends Controller
         return view('trainer.courses.create');
     }
 
-    public function store(
-         $request)
+    public function store(CreateCourseRequest $request)
     {
         try {
             $validated = $request->validated();
@@ -63,14 +64,7 @@ class TrainerController extends Controller
                 ], 422);
             }
             $validated['trainer_id'] = auth()->id();
-            $course = Course::create([
-                'title' => $validated['title'],
-                'description' => $validated['description'],
-                'image' => $validated['image'],
-                'trainer_id' => $validated['trainer_id'],
-                'pricing' => $validated['pricing'],
-                'status' => $validated['status'],
-            ]);
+
             $objectives = [];
             if ($request->has('objectives_json')) {
                 $objectives = json_decode($request->input('objectives_json'), true) ?? [];
@@ -117,7 +111,14 @@ class TrainerController extends Controller
                     });
                 }
             }
-
+            $course = Course::create([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'image' => $validated['image'],
+                'trainer_id' => $validated['trainer_id'],
+                'pricing' => $validated['pricing'],
+                'status' => $validated['status'],
+            ]);
             // Create course info
             CourseInfo::create([
                 'course_id' => $course->id,
@@ -132,8 +133,9 @@ class TrainerController extends Controller
                 'success' => true,
                 'message' => 'Course created successfully',
 
-                'redirect' =>  redirect()->route('courses.show', $course->id),
-                'course' => $course
+                // 'redirect' =>  redirect()->route('courses.show', $course->id),
+                'redirect' =>             redirect()->route('courses.show', $course->id),
+                'course' => $course,
             ]);
         } catch (\Exception $e) {
             // Log error
@@ -146,14 +148,6 @@ class TrainerController extends Controller
                 'message' => 'An error occurred while creating the course: ' . $e->getMessage()
             ], status: 500);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
 
@@ -169,17 +163,7 @@ class TrainerController extends Controller
         return view('trainer.courses.edit', compact('course'));
     }
 
-    public function getCourseData($id)
-    {
-        $course = Course::with('courseInfo')->findOrFail($id);
 
-        // Check if the logged-in trainer owns this course
-        if ($course->trainer_id !== auth()->id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
-
-        return response()->json(['course' => $course]);
-    }
 
     /**
      * Update the specified resource in storage.
@@ -263,6 +247,7 @@ class TrainerController extends Controller
             'objectives' => $objectives,
             'projects' => $projects,
         ]);
+        event(new UpdateCourseNotificationEvent("Your course has been updated from Trainers " . $this->auth->email, 2));
 
         // Return success response
         return response()->json([
