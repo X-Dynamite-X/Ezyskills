@@ -20,7 +20,7 @@ class Course extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+ 
         'pricing' => 'decimal:2',
     ];
 
@@ -36,7 +36,7 @@ class Course extends Model
     public function enrolledUsers()
     {
         return $this->belongsToMany(User::class, 'enrollments')
-            
+
             ->withTimestamps();
     }
 

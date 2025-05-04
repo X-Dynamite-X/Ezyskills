@@ -21,6 +21,27 @@
 <body class="bg-gray-100">
 
     <!-- Header -->
+    <div id="notifications">
+        <div
+            class="fixed top-4 right-4 z-50 bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300 max-w-md">
+            <button class="absolute top-2 right-2 text-white hover:bg-blue-600 rounded-full p-1  ml-2"
+                onclick="this.parentElement.remove()">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        <div class="m-1 ">
+            tes tes tes test tse test test
+            tes tes tes test tse test test
+            tes tes tes test tse test test
+
+
+        </div>
+        </div>
+
+    </div>
+
     @if (request()->routeIs('admin.*') || request()->routeIs('trainer.*'))
         @include('layouts.sidebar')
         <div class="p-4 sm:ml-64">
@@ -32,10 +53,10 @@
     @endif
 
 
-        @include('layouts.footer')
-        @yield('js')
+    @include('layouts.footer')
+    @yield('js')
 
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 
 </body>
 

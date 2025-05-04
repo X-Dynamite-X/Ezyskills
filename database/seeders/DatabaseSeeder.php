@@ -19,7 +19,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'dynamite@gmail.com',
             "password" => bcrypt("123")
         ]);
+
         $user->assignRole(["admin", "trainer"]);
+        User::factory()->create([
+
+            'email' => 'madara@gmail.com',
+            "password" => bcrypt("123")
+        ]);
         User::factory(99)->create();
         $this->call([
             PricingPlanSeeder::class,

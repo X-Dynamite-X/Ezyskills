@@ -1,4 +1,5 @@
 import $ from "jquery";
+import "./echo";
 
 // تحديد المسار الحالي
 const currentPath = window.location.pathname;
@@ -27,8 +28,7 @@ if (currentPath.startsWith("/trainer")) {
 if (currentPath === "/") {
     import("./home/featurse.js");
     import("./courses/model/create.js");
-    //C:\Users\abdmo\OneDrive\Desktop\laravelApp\Ezyskills\resources\js\courses\model\create.js
-}
+ }
 if (currentPath === "/pricing") {
     import("./pricing/index.js");
 }

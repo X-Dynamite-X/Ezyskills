@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EnrollUserInCourseNotificationEvent;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
@@ -21,6 +22,9 @@ class StudentController extends Controller
      */
     public function index()
     {
+        // event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . $this->user->email));
+
+
         $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(8);
 
         return view("student.index", compact('courses'));
@@ -54,6 +58,9 @@ class StudentController extends Controller
             return redirect()->route('courses.show', $course->id)
                 ->with('info', 'You are already enrolled in this course.');
         }
+        // dd($course->trainer);
+        event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . $this->user->email, $course->trainer->id));
+
 
         if ($this->isAuth && $this->user->credit > 0) {
             $this->user->credit -= 1;
@@ -64,6 +71,7 @@ class StudentController extends Controller
                 'usePlan' => true,
                 'enrolled_at' => now(),
             ]);
+
             if ($request->ajax()) {
                 return response()->json([
                     'message' => 'You have successfully enrolled in the course',
@@ -79,10 +87,11 @@ class StudentController extends Controller
             'usePlan' => false,
             'enrolled_at' => now(),
         ]);
+
         if($request->ajax()){
                 return response()->json([
                     'message' => 'You have successfully enrolled in the course',
-                    // 'redirect' => route('student.show', $course->id),
+
                 'redirect' => redirect()->intended('/student')->getTargetUrl()
                 ]);
         }

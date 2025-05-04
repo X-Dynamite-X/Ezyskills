@@ -21,7 +21,7 @@ class PricingPlan extends Model
         'pricing' => 'int',
     ];
 
-    
+
 
     // Get formatted price
     public function getFormattedPriceAttribute()
@@ -35,7 +35,6 @@ class PricingPlan extends Model
         if (empty($this->features)) {
             return [];
         }
-
         return array_map('trim', explode(',', $this->features));
     }
     public function users()

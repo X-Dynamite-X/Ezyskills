@@ -1,4 +1,4 @@
-<header class="bg-white  shadow-md">
+<header class="bg-white  shadow-md" id="user-header" data-user-id="{{ auth()->user()->id ?? '' }}">
     <div class="container mx-auto flex justify-between items-center p-4">
         <div class="flex items-center space-x-4">
             <img src="{{ asset('logo.png') }}" alt="EZY Skills" class="w-32 h-auto">
@@ -95,4 +95,3 @@
     </div>
 </header>
 
- 

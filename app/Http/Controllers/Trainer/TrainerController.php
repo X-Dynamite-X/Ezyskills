@@ -48,7 +48,8 @@ class TrainerController extends Controller
         return view('trainer.courses.create');
     }
 
-    public function store(CreateCourseRequest $request)
+    public function store(
+         $request)
     {
         try {
             $validated = $request->validated();

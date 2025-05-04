@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Events\EnrollUserInCourseNotificationEvent;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', function () {
@@ -15,10 +16,22 @@ Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
 
+Route::get("/test" ,function(){
 
-require __DIR__ . '/auth.php';
-require __DIR__ . '/student.php';
-require __DIR__ . '/courses.php';
-require __DIR__ . '/trainer.php';
-require __DIR__ . '/pricing.php';
-require __DIR__ . '/admin.php';
+    broadcast(new EnrollUserInCourseNotificationEvent("test"));
+
+});
+
+
+$files = [
+    'auth.php',
+    'student.php',
+    'courses.php',
+    'trainer.php',
+    'pricing.php',
+    'admin.php',
+];
+
+foreach ($files as $file) {
+    require __DIR__ . '/' . $file;
+}
