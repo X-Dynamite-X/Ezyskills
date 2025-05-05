@@ -43,9 +43,9 @@ class TrainerController extends Controller
             ]);
         }
         $courses = $this->auth->courses()->paginate(10);
-
         return view("trainer.index", compact('courses'));
     }
+
     public function create()
     {
         return view('trainer.courses.create');
