@@ -52,7 +52,10 @@ class Course extends Model
     {
         return $this->hasOne(CourseInfo::class);
     }
-
+    public function ratings()
+    {
+        return $this->hasMany(Review::class);
+    }
    
 
 }

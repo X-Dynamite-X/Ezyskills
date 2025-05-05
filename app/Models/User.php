@@ -81,5 +81,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(PricingPlanUser::class);
     }
-    
+    public function courseRatings()
+    {
+        return $this->hasMany(Review::class);
+     }
 }
