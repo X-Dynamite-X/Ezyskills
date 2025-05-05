@@ -11,29 +11,31 @@ use Illuminate\Support\Facades\Auth;
 
 class StudentController extends Controller
 {
-    protected $user, $isAuth;
-    public function __construct()
-    {
-        $this->user = Auth::user();
-        $this->isAuth = Auth::check();
-    }
 
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(8);
+        $courses = Enrollment::where('user_id', Auth::user()->id)->with('course')->paginate(8);
         return view("student.index", compact('courses'));
     }
 
     public function show(Enrollment $enrollment)
     {
         $enrollment = Enrollment::findOrFail($enrollment->id);
-        if ($this->user->id !== $enrollment->user_id) {
+        $user = Auth::user();
+
+
+        if ($user->id !== $enrollment->user_id) {
             return redirect()->route('courses');
         }
-        return view("student.show", compact('enrollment'));
+
+        $rating = $user->courseRatings()
+            ->where('course_id', $enrollment->course_id)
+            ->first()->rating ?? 0;
+
+        return view("student.show", compact('enrollment', "rating"));
     }
 
     /**
@@ -42,25 +44,25 @@ class StudentController extends Controller
     public function store(Request $request, Course $course)
     {
         $course = Course::findOrFail($course->id);
-        if ($course->user_id == $this->user->id) {
+        if ($course->user_id == Auth::user()->id) {
             return redirect()->back()->with('error', 'You cannot enroll in your own course.');
         }
-        $alreadyEnrolled = Enrollment::where('user_id', $this->user->id)
+        $alreadyEnrolled = Enrollment::where('user_id', Auth::user()->id)
             ->where('course_id', $course->id)
             ->exists();
         if ($alreadyEnrolled) {
             return redirect()->route('courses.show', $course->id)
                 ->with('info', 'You are already enrolled in this course.');
         }
-        //  event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . $this->user->email, $course->trainer->id));
+        //  event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . Auth::user()->email, $course->trainer->id));
 
-        $course->trainer->notify(new EnrollUserInCourseNotification("Your course has been purchased from this user. " . $this->user->email));
+        $course->trainer->notify(new EnrollUserInCourseNotification("Your course has been purchased from this user. " . Auth::user()->email));
 
-        if ($this->isAuth && $this->user->credit > 0) {
-            $this->user->credit -= 1;
-            $this->user->save();
+        if (Auth::check() && Auth::user()->credit > 0) {
+            Auth::user()->credit -= 1;
+            Auth::user()->save();
             Enrollment::create([
-                'user_id' => $this->user->id,
+                'user_id' => Auth::user()->id,
                 'course_id' => $course->id,
                 'usePlan' => true,
                 'enrolled_at' => now(),
@@ -76,18 +78,18 @@ class StudentController extends Controller
             return redirect()->route('courses.show', $course->id);
         }
         Enrollment::create([
-            'user_id' => $this->user->id,
+            'user_id' => Auth::user()->id,
             'course_id' => $course->id,
             'usePlan' => false,
             'enrolled_at' => now(),
         ]);
 
-        if($request->ajax()){
-                return response()->json([
-                    'message' => 'You have successfully enrolled in the course',
+        if ($request->ajax()) {
+            return response()->json([
+                'message' => 'You have successfully enrolled in the course',
 
                 'redirect' => redirect()->intended('/student')->getTargetUrl()
-                ]);
+            ]);
         }
 
         return redirect()->route('student.show', $course->id);

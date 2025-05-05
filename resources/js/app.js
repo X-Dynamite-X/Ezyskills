@@ -32,6 +32,9 @@ if (currentPath === "/") {
 if (currentPath === "/pricing") {
     import("./pricing/index.js");
 }
+if (currentPath.startsWith("/student")) {
+    import("./rating");
+}
  $(document).ready(function () {
      $("#notificationBtn").on("click", function (e) {
          e.stopPropagation();

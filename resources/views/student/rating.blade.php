@@ -13,16 +13,23 @@
                  <div class="rating-stars flex justify-center space-x-2">
                      @for ($i = 5; $i >= 1; $i--)
                          <input type="radio" id="simpleStar{{ $i }}" name="rating"
-                             value="{{ $i }}" class="hidden">
+                             value="{{ $i }}" class="hidden" {{ $i == $rating ? 'checked' : '' }}>
                          <label for="simpleStar{{ $i }}"
-                             class="text-4xl cursor-pointer text-gray-300 hover:text-yellow-400">★</label>
+                             class="text-4xl cursor-pointer star-label {{ $i <= $rating ? 'text-yellow-400' : 'text-gray-300' }}"
+                             data-rating="{{ $i }}">★</label>
                      @endfor
                  </div>
+
+                 <div id="selectedRating" class="{{ $rating ? '' : 'hidden' }} mt-2 text-sm text-gray-600">
+                     Your rating: <span id="ratingValue">{{ $rating }}</span>
+                 </div>
+
                  <div class="flex justify-between mt-2 text-sm text-gray-500">
                      <span>5 (Excellent)</span>
                      <span>1 (Poor)</span>
                  </div>
              </div>
+
              <div class="text-center">
                  <button type="submit"
                      class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
