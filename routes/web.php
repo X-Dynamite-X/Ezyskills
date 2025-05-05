@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Events\EnrollUserInCourseNotificationEvent;
+use App\Http\Controllers\{HomeController,NotificationController};
+use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', function () {
@@ -15,12 +16,9 @@ Route::get('/contactUs', function () {
 Route::get('/faq', function () {
     return view('faq');
 })->name('faq');
-
-Route::get("/test" ,function(){
-
-    broadcast(new EnrollUserInCourseNotificationEvent("test"));
-
-});
+Route::get('/notifications', [NotificationController::class, 'getUserNotifications'])
+    ->middleware('auth');
+Route::post('/notifications/markAsRead',[NotificationController::class , 'markAllAsRead' ] )->middleware('auth')->name('notifications.markAsRead');
 
 
 $files = [

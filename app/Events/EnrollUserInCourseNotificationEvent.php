@@ -26,7 +26,7 @@ class EnrollUserInCourseNotificationEvent implements ShouldBroadcast
     public function broadcastOn()
     {
 
-       
+
         return new PrivateChannel('trainer_channel_' . $this->trainerId);
     }
 
@@ -34,4 +34,6 @@ class EnrollUserInCourseNotificationEvent implements ShouldBroadcast
     {
         return 'trainer_event';
     }
+
+   
 }

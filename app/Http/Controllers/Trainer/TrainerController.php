@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{Course, CourseInfo};
 use App\Events\UpdateCourseNotificationEvent;
+use App\Notifications\UpdateCourseNotification;
 
 class TrainerController extends Controller
 {
@@ -247,7 +248,10 @@ class TrainerController extends Controller
             'objectives' => $objectives,
             'projects' => $projects,
         ]);
-        event(new UpdateCourseNotificationEvent("Your course has been updated from Trainers " . $this->auth->email, 2));
+        // event(new UpdateCourseNotificationEvent("Your course has been updated from Trainers " . $this->auth->email, 2));
+        $course->notify(new UpdateCourseNotification(
+            "The course \"{$course->title}\" has been updated by the trainer {$course->trainer->email}."
+        ));
 
         // Return success response
         return response()->json([

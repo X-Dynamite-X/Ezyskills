@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Notifications\DatabaseNotification;
 
 class Course extends Model
 {
-    use HasFactory,HasRoles;
+    use HasFactory,HasRoles, Notifiable;
     protected $fillable = [
         'title',
         'description',
@@ -51,6 +53,6 @@ class Course extends Model
         return $this->hasOne(CourseInfo::class);
     }
 
-
+   
 
 }

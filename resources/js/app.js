@@ -32,6 +32,30 @@ if (currentPath === "/") {
 if (currentPath === "/pricing") {
     import("./pricing/index.js");
 }
+ $(document).ready(function () {
+     $("#notificationBtn").on("click", function (e) {
+         e.stopPropagation();
+         $("#notificationDropdown").toggleClass("hidden");
+         if (!$("#notificationDropdown").hasClass("hidden")) {
+             $("#notificationBadge").fadeOut();
+             $.ajax({
+                 url: "/notifications/markAsRead",
+                 type: "POST",
+                 data: {
+                     _token: $('meta[name="csrf-token"]').attr("content"),
+                 },
+             });
+         }
+     });
+     $(document).on("click", function (e) {
+         if (
+             !$(e.target).closest("#notificationDropdown, #notificationBtn")
+                 .length
+         ) {
+             $("#notificationDropdown").addClass("hidden");
+         }
+     });
+ });
 
 $(document).ready(function () {
     // مثال على تفاعل jQuery

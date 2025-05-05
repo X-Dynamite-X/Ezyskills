@@ -4,7 +4,6 @@ import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 window.Pusher = Pusher;
 
-
 window.Echo = new Echo({
     broadcaster: import.meta.env.VITE_PUSHER_BROADCAST_DRIVER,
     key: import.meta.env.VITE_PUSHER_APP_KEY,
@@ -13,22 +12,46 @@ window.Echo = new Echo({
     enabledTransports: ["ws", "wss"],
     authEndpoint: "/broadcasting/auth",
 });
-const userId = $("#user-header").data("user-id");
+const userId = document
+    .querySelector('meta[name="user-id"]')
+    .getAttribute("content");
 
-const trainerChannel = window.Echo.private("trainer_channel_" + userId);
-trainerChannel.listen(".trainer_event", function (data) {
-    console.log(data);
-    showNotification(data.message || JSON.stringify(data));
+const trainerChannel = window.Echo.private(`App.Models.User.${userId}`);
+trainerChannel.notification((notification) => {
+    showNotification(notification.message || JSON.stringify(notification));
+    addNewNotification(notification || JSON.stringify(notification));
 });
 
 window.coursesList.forEach((courseId) => {
-    window.Echo.private(`course_channel_${courseId}`).listen(
-        ".course_event",
-        function (data) {
-            showNotification(data.message || JSON.stringify(data));
+    window.Echo.private(`App.Models.Course.${courseId}`).notification(
+        (notification) => {
+            showNotification(
+                notification.message || JSON.stringify(notification)
+            );
+            addNewNotification(notification || JSON.stringify(notification));
         }
     );
 });
+function addNewNotification(notification) {
+    const notificationItem = $("<li>", {
+        class: "p-3 hover:bg-gray-50 border-b border-gray-100",
+        html: `
+            <div class="flex items-start">
+                <div class="ml-3">
+                    <p class="text-sm text-gray-500">
+                        ${notification.message || "No message content"}
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">
+                        Just now
+                    </p>
+                </div>
+            </div>
+        `,
+    });
+
+    // إضافة الإشعار إلى بداية القائمة
+    $("#notificationsList").prepend(notificationItem);
+}
 
 function showNotification(message) {
     const notification = $(`

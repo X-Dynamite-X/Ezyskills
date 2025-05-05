@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\EnrollUserInCourseNotificationEvent;
+use App\Notifications\EnrollUserInCourseNotification;
 use App\Models\Course;
 use App\Models\Enrollment;
 use Illuminate\Http\Request;
@@ -22,16 +23,10 @@ class StudentController extends Controller
      */
     public function index()
     {
-
-
         $courses = Enrollment::where('user_id', $this->user->id)->with('course')->paginate(8);
-
         return view("student.index", compact('courses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function show(Enrollment $enrollment)
     {
         $enrollment = Enrollment::findOrFail($enrollment->id);
@@ -57,8 +52,9 @@ class StudentController extends Controller
             return redirect()->route('courses.show', $course->id)
                 ->with('info', 'You are already enrolled in this course.');
         }
-         event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . $this->user->email, $course->trainer->id));
+        //  event(new EnrollUserInCourseNotificationEvent("Your course has been purchased from this user. " . $this->user->email, $course->trainer->id));
 
+        $course->trainer->notify(new EnrollUserInCourseNotification("Your course has been purchased from this user. " . $this->user->email));
 
         if ($this->isAuth && $this->user->credit > 0) {
             $this->user->credit -= 1;
