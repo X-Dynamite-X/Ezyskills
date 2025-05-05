@@ -10,12 +10,13 @@ class PricingPlan extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'image',
         'trainer_id',
         'pricing',
-        'status'
+        'status',
+        "user_id"
     ];
     protected $casts = [
         'pricing' => 'int',

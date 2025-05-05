@@ -27,7 +27,7 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 name: planName,
-                price: planPrice,
+                pricing: planPrice,
                 credit: planCredit,
                 description: planDescription,
                 features: planFeatures,

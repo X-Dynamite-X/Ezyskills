@@ -17,9 +17,10 @@ class PricingPlanController extends Controller
     }
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'pricing' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'credit' => 'required|integer|min:1',
             'features' => 'nullable|string',
@@ -32,7 +33,6 @@ class PricingPlanController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-
         $data = $validator->validated();
         $data['user_id'] = Auth::id();
 
@@ -60,7 +60,7 @@ class PricingPlanController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'price' => 'required|numeric|min:0',
+            'pricing' => 'required|numeric|min:0',
             'description' => 'nullable|string',
             'credit' => 'required|integer|min:1',
             'features' => 'nullable|string',
@@ -76,7 +76,7 @@ class PricingPlanController extends Controller
 
         $pricingPlan->update([
             'name' => $request->name,
-            'price' => $request->price,
+            'pricing' => $request->price,
             'description' => $request->description,
             'credit' => $request->credit,
             'features' => $request->features,
