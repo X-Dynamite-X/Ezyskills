@@ -11,63 +11,32 @@ use Illuminate\Support\Facades\Auth;
 class CourseReviewController extends Controller
 {
     //
-    public function store(Request $request, Enrollment $enrollment)
+    public function store(Request $request, Course $course)
     {
-      
-            // Find the enrollment
-            $enrollment = Enrollment::findOrFail($enrollment->id);
+        // التحقق من وجود الـ enrollment
 
-           
-         
+        $course = Course::findOrFail($course->id);
 
-            // Validate the rating
-            $validated = $request->validate([
-                'rating' => 'required|integer|between:1,5',
-             ]);
-
-            // Create or update the rating
-            $enrollment->course->ratings()->updateOrCreate(
-                ['user_id' => auth()->id()],
-                ['rating' => $validated['rating']]
-            );
-
-  
-            return response()->json([
-                'success' => true,
-                'message' => 'Rating submitted successfully',
-                'average_rating' => $enrollment->course->average_rating,
-                'ratings_count' => $enrollment->course->ratings_count
-            ]);
- 
-    }
-    public function update(Request $request, Review $review)
-    {
-        // التحقق من أن التقييم يعود للمستخدم الحالي
-        if ($review->user_id != Auth::id()) {
-            abort(403, 'غير مصرح لك بتعديل هذا التقييم');
-        }
-
-        // التحقق من صحة البيانات
-        $validator = Validator::make($request->all(), [
+        // التحقق من صحة البيانات المدخلة
+        $validated = $request->validate([
             'rating' => 'required|integer|between:1,5',
-            'comment' => 'nullable|string|max:500'
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // إنشاء أو تحديث التقييم
+        $rating = Review::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'course_id' => $course->id,
+                'rating' => $validated['rating'],
 
-        // تحديث التقييم
-        $review->update([
-            'rating' => $request->rating,
-            'comment' => $request->comment
+            ],
+
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Rating submitted successfully',
+            'r' => $rating,
         ]);
-
-
-        return redirect()->route('student.courses.show', $review->course)
-            ->with('success', 'تم تحديث تقييمك بنجاح!');
     }
-
 }

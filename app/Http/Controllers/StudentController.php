@@ -31,10 +31,11 @@ class StudentController extends Controller
             return redirect()->route('courses');
         }
 
-        $rating = $user->courseRatings()
-            ->where('course_id', $enrollment->course_id)
-            ->first()->rating ?? 0;
-
+        // $rating = $user->courseRatings()
+        //     ->where('course_id', $enrollment->course_id)
+        //     ->first()->rating ?? 0;
+        $rating = $enrollment->user->courseRatings->where('course_id', $enrollment->course_id)->first()->rating ?? 0;
+// dd($rating);
         return view("student.show", compact('enrollment', "rating"));
     }
 

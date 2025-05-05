@@ -6,7 +6,7 @@
      </div>
 
      <div class="bg-white rounded-lg shadow p-6">
-         <form id="simpleEvaluationForm" action="{{ route('rating.course', $enrollment->course->id) }}" method="POST">
+         <form id="simpleEvaluationForm" action="{{ route('rating.course', $enrollment->course_id) }}" method="POST">
              @csrf
 
              <div class="text-center mb-6">
